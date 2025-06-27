@@ -1,0 +1,31 @@
+BFA-
+int searchInsert(vector<int>& nums, int target) {
+       int ans=nums.size();
+       for(int i=0;i<nums.size();i++){
+            if(nums[i]>=target){
+                ans=i;
+                break;
+            }
+       }
+       return ans;
+    }
+
+    OP-I
+    
+int searchInsert/lower bound(vector<int>& nums, int target) {
+       int ans=nums.size();
+       int start=0;
+       int end=nums.size()-1;                          or int ans=lower_bound(nums.begin(),nums.end(),target)-nums.begin();
+       while(start<=end){                                   return ans;
+            int mid=start+((end-start)/2);
+            if(nums[mid]>=target){
+                ans=mid;
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+       }
+       return ans;
+    }
+      
+
