@@ -1,0 +1,12 @@
+BFA-
+int ans=num.size();
+for(int i=0;i<nums.size();i++){
+  if(nums[i]>target){
+      ans=i;
+      break;
+  }
+}
+return ans;
+
+OPI-
+from lower bound only remove equal to sign
