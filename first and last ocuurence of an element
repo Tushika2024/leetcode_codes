@@ -1,0 +1,99 @@
+BFA-
+vector<int> searchRange(vector<int>& nums, int target) {
+        int first=-1;
+        int last=-1;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==target){
+                if(first==-1){
+                    first=i;
+                }
+                last=i;
+            }
+        }
+        return {first,last};
+    }
+    
+op-I
+ vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int>index;
+        int lb=lower_bound(nums.begin(),nums.end(),target)-nums.begin();
+        if(lb==nums.size() || nums[lb]!=target){
+            return{-1,-1};
+        }
+        //floor element index;
+        int start=0;
+        int end=nums.size()-1;
+        int ans=-1;
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            if(nums[mid]<=target){
+                ans=mid;
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+        }
+        if(ans==-1 || nums[ans]!=target){
+            return{-1,-1};
+        }
+       
+            index.push_back(lb);
+            index.push_back(ans);
+            return index;
+        
+    }
+
+    op-II
+     vector<int> searchRange(vector<int>& nums, int target) {
+        int lb=lower_bound(nums.begin(),nums.end(),target)-nums.begin();
+        if(lb==nums.size() || nums[lb]!=target){
+            return {-1,-1};
+        }
+        int up=upper_bound(nums.begin(),nums.end(),target)-nums.begin();
+        return {lb,(up-1)};
+    }
+
+    op-III
+
+    int firstOcurr(vector<int>& nums,int target){
+        int first=-1;
+        int start=0;
+        int end=nums.size()-1;
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            if(nums[mid]==target){
+                first=mid;
+                end=mid-1;
+            }else if(nums[mid]<target){
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+        }
+        return first;
+    }
+    int lastOcurr(vector<int>& nums,int target){
+        int last=-1;
+        int start=0;
+        int end=nums.size()-1;
+        while(start<=end){
+            int  mid=start+((end-start)/2);
+            if(nums[mid]==target){
+                last=mid;
+                start=mid+1;
+            }else if(nums[mid]<target){
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+        }
+        return last;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int firstO=firstOcurr(nums,target);
+        if(firstO==-1){
+            return {-1,-1};
+        }
+        int lastO=lastOcurr(nums,target);
+        return {firstO,lastO};
+    }
