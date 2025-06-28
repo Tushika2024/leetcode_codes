@@ -11,10 +11,11 @@ int findMin(vector<int>& nums) {
         int ans=INT_MAX;
         while(start<=end){
             int mid=start+((end-start)/2);
-            if(nums[start]<=nums[end]){           // for optimisation      remove equal for min in sarch and rotated array II  [4,5,6,7,8,4,4]
+            if(nums[start]<=nums[end]){           // for optimisation      remove equal for min in sorted  and rotated array II  [4,5,6,7,8,4,4]
                 ans=min(ans,nums[start]);
                 break;
             }                                       if (nums[start] == nums[mid] && nums[mid] == nums[end]) {
+                                                         ans=min(ans,nums[start]);                    nums=[1]
                                                             start++;                                 // for min in rotated sorted array II
                                                             end--;
                                                         }
