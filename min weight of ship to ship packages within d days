@@ -1,0 +1,39 @@
+BFA-
+for(int i=maxel;i<=sum;i++){
+    if(daysCal(wights,days,i)<=days){
+        return i;
+    }
+}
+OP-
+int daysCal(vector<int>& weights,int days,int req){
+        int d=0;
+        int sum=0;
+        for(int i=0;i<weights.size();i++){
+            if((sum+weights[i])>req){
+                d++;
+                sum=weights[i];
+            }else{
+                sum+=weights[i];
+            }
+        }
+        if(sum!=0){
+            d++;
+        }
+        return d;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+            if(days<=0) return -1;
+            int maxel=*max_element(weights.begin(),weights.end());
+            int sumel=accumulate(weights.begin(),weights.end(),0);
+            int start=maxel;
+            int end=sumel;
+            while(start<=end){
+                int mid=start+((end-start)/2);
+                if(daysCal(weights,days,mid)<=days){
+                    end=mid-1;
+                }else{
+                    start=mid+1;
+                }
+            }
+        return start;
+    }
