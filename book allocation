@@ -1,0 +1,63 @@
+BFA_- time limit excceded
+int students(vector<int>& arr,int pages){
+        int c=0;
+        int sum=0;
+        for(int i=0;i<arr.size();i++){
+            sum+=arr[i];
+            if(sum>pages){
+                c++;
+                sum=arr[i];
+            }
+        }
+        c++;
+        return c;
+    }
+    int findPages(vector<int> &arr, int k) {
+        if(k>arr.size()){
+            return -1;
+        }
+        int maxel=*max_element(arr.begin(),arr.end());
+        int sum=accumulate(arr.begin(),arr.end(),0);
+        for(int i=maxel;i<=sum;i++){
+            int studentNo=students(arr,i);
+            if(studentNo<=k){
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+
+
+OPI-
+    int students(vector<int>& arr,int pages){
+        int c=0;
+        int sum=0;
+        for(int i=0;i<arr.size();i++){
+            sum+=arr[i];
+            if(sum>pages){
+                c++;
+                sum=arr[i];
+            }
+        }
+        c++;
+        return c;
+    }
+    int findPages(vector<int> &arr, int k) {
+        if(k>arr.size()){
+            return -1;
+        }
+        int start=*max_element(arr.begin(),arr.end());
+        int end=accumulate(arr.begin(),arr.end(),0);
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            int stud=students(arr,mid);
+            if(stud>k){
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+        }
+        return start;
+    }
+};
