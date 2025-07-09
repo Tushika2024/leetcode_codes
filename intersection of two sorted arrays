@@ -1,0 +1,47 @@
+BFA-
+ vector<int> intersection(vector<int> &arr1, vector<int> &arr2) {
+        unordered_set<int>st;
+        vector<int>ans;
+        int n1=arr1.size();
+        int n2=arr2.size();
+        for(int i=0;i<n1;i++){
+                st.insert(arr1[i]);
+            
+        }
+        for(int i=0;i<n2;i++){
+            
+            if(st.find(arr2[i]) !=st.end()){
+                if(ans.empty() || ans.back()!=arr2[i]){
+                        ans.push_back(arr2[i]);
+                }
+            }
+        }
+        return ans;
+    }
+
+    OPTIMISED-
+     vector<int> intersection(vector<int> &arr1, vector<int> &arr2) {
+        vector<int>ans;
+        int n1=arr1.size();
+        int n2=arr2.size();
+        int i=0;
+        int j=0;
+        while(i<n1 && j<n2){
+            if(arr1[i]<arr2[j]){
+                i++;
+            }else if(arr2[j]<arr1[i]){
+                j++;
+            }else{
+                if(ans.empty() || ans.back()!=arr1[i]){
+                    ans.push_back(arr1[i]);
+                }
+                i++;
+                j++;
+            }
+        }
+        return ans;
+    }
+
+    if duplicates allowed in intersection by visited array and in second approach do not check for last element of ans
+    
+    
