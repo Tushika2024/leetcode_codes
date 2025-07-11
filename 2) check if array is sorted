@@ -1,0 +1,23 @@
+BFA-
+bool isSorted(vector<int>& arr) {
+        // code here
+        vector<int>dup=arr;;
+        sort(dup.begin(),dup.end());
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]!=dup[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    
+OPTIMAL-
+bool isSorted(vector<int>& arr) {
+        for(int i=0;i<arr.size()-1;i++){
+            if(arr[i]>arr[i+1]){
+                return false;
+            }
+        }
+        return true;
+    }
