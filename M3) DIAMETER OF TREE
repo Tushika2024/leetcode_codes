@@ -1,0 +1,41 @@
+BFA-                       TC=O(N2)
+int height(TreeNode *root){
+        if(root==NULL){
+            return 0;
+        }
+        int leh=height(root->left);
+        int reh=height(root->right);
+        return max(leh,reh)+1;
+    }
+    void findDiameter(TreeNode *root,int &maxd){
+        if(root==NULL){
+            return ;
+        }
+        int lh=height(root->left);
+        int rh=height(root->right);
+        maxd=max(maxd,lh+rh);
+        findDiameter(root->left,maxd);
+        findDiameter(root->right,maxd);
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+       int maxd=0;
+       findDiameter(root,maxd);
+       return maxd; 
+    }
+
+
+OPTIMAL-                   TC=O(N)
+  int findHeight(TreeNode *root,int &maxd){
+        if(root==NULL){
+            return 0;
+        }
+        int lh=findHeight(root->left,maxd);
+        int rh=findHeight(root->right,maxd);
+        maxd=max(maxd,lh+rh);
+        return max(lh,rh)+1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+       int maxd=0;
+       findHeight(root,maxd);
+       return maxd; 
+    }
