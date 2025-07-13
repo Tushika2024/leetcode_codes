@@ -1,6 +1,6 @@
 OPTIMAL-  RECURSIVE
-int maxDepth(TreeNode* root) {
-        if(root==NULL){
+int maxDepth(TreeNode* root) {                       TC=O(N)
+        if(root==NULL){                              SC=O(HEIGHT)   AVG/BEST CASE=O(LOG N) WORST CASE=O(N)
             return 0;
         }
         int ldepth=maxDepth(root->left);
@@ -14,8 +14,8 @@ int maxDepth(TreeNode* root) {
         queue<TreeNode* >q;
         int c=0;
         q.push(root);
-        while(!q.empty()){
-            int size=q.size();
+        while(!q.empty()){                        TC=0(N)
+            int size=q.size();                    SC=O(N)
             for(int i=0;i<size;i++){
                 TreeNode *el=q.front();
                 if(el->left !=NULL){
