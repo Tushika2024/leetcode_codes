@@ -1,6 +1,6 @@
 BFA-
 int height(TreeNode *root){
-        if(root==NULL){
+        if(root==NULL){                         TC=O(n2)
             return 0;
         }
         int lh=height(root->left);
@@ -31,7 +31,7 @@ int checkHeight(TreeNode *root){
             return 0;
         }
         int lh=checkHeight(root->left);
-        if(lh==-1){
+        if(lh==-1){                                         TC=O(N)
             return -1;
         }
         int rh=checkHeight(root->right);
