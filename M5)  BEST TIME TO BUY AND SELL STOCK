@@ -1,0 +1,22 @@
+BFA-                                                        TC=O(N2)   SC=O(1)
+int maxProfit(vector<int>& prices) {
+            int mprofit=0;
+            for(int i=0;i<prices.size()-1;i++){
+                for(int j=i+1;j<prices.size()-1;j++){
+                    int profit=prices[j]-prices[i];
+                    mprofit=max(mprofit,profit);
+                }
+            }
+            return mprofit;
+    }
+OPTIMAL-                                                        TC=O(N) SC=O(1)
+int maxProfit(vector<int>& prices) {
+            int mprofit=0;
+            int mSell=prices[prices.size()-1];                        REMEMBERING BEST SELL WHICH IS MAX OR FORWARD LOOP AND REMEMBERING BEST BUY DAY WHICH IS MIN
+            for(int i=prices.size()-2;i>=0;i--){
+                int profit=mSell-prices[i];
+                mprofit=max(mprofit,profit);
+                mSell=max(mSell,prices[i]);
+            }
+            return mprofit;
+    }
