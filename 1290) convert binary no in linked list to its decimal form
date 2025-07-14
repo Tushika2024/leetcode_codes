@@ -1,0 +1,35 @@
+BFA-                                          TC=O(2N)         size+power calc
+int size(ListNode *head){                     SC=O(1)
+        ListNode *temp=head;
+        int sizeList=0;
+        while(temp !=NULL){
+            sizeList++;
+            temp=temp->next;
+        }
+        return sizeList;
+    }
+    int getDecimalValue(ListNode* head) {
+        int sizeList=size(head);
+        int c=sizeList-1;
+        int no=0;
+        ListNode *temp=head;
+        while(temp !=NULL){
+            if(temp->val){
+                no+=1<<c;
+            }
+            c--;
+            temp=temp->next;
+        }
+        return no;
+    }
+
+    OPTIMAL-                                               TC=O(N)     SC=0(1)
+    int getDecimalValue(ListNode* head) {
+        int no=head->val;
+        ListNode *temp=head->next;
+        while(temp !=NULL){
+            no=(no<<1)|(temp->val);
+            temp=temp->next;
+        }
+        return no;
+    }
