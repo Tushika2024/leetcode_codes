@@ -1,0 +1,39 @@
+BFA-                                                                                     TC=0(N2)  SC=O(256)                                        PATTERN 2
+ int lengthOfLongestSubstring(string s) {
+        int maxlen=0;
+        vector<int> arr(256,0);
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            fill(arr.begin(),arr.end(),0);
+            int j=i;                                                          
+            for(j;j<n;j++){
+                if(arr[s[j]]==1){
+                    j=n;
+                }else{
+                    maxlen=max(maxlen,j-i+1);
+                    arr[s[j]]=1;
+                }
+            }
+        }
+        return maxlen;
+    }
+
+
+OPTIMAL-                                                                                     tc=O(N)  SC=O(256)
+int lengthOfLongestSubstring(string s) {
+       int l=0;
+       int r=0;
+       int maxlen=0;
+       vector<int>mp(256,-1);
+       while(r<s.size()){
+            if(mp[s[r]]!=-1){
+                if(mp[s[r]]>=l){
+                    l=mp[s[r]]+1;
+                }
+            }
+            maxlen=max(maxlen,r-l+1);
+            mp[s[r]]=r;
+            r++;
+       }
+       return maxlen;
+    }
