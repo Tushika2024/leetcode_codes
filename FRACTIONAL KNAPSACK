@@ -1,0 +1,26 @@
+static bool comp(pair<int,int>p1,pair<int,int>p2){                                       TC=O(N)+O(NLOGN)+o(N)
+        if(((double)p1.first/p1.second)>=((double)p2.first/p2.second)){                   SC=O(N)
+            return true;
+        }
+        return false;
+    }
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        vector<pair<int,int>>item;
+        double ans=0;
+        for(int i=0;i<val.size();i++){
+            item.push_back(make_pair(val[i],wt[i]));
+        }
+        sort(item.begin(),item.end(),comp);
+        for(int i=0;i<item.size();i++){
+            if(item[i].second<=capacity){
+                ans+=item[i].first;
+                capacity-=item[i].second;
+            }else{
+                ans+=((double)item[i].first/item[i].second)*capacity;
+                capacity=0;
+                break;
+            }
+        }
+        return ans;
+        
+    }
