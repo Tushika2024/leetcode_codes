@@ -1,0 +1,56 @@
+BFA-                                                               TC=O(NLOG10)=O(N)
+class Solution {                                                    SC=O(N)+O(N)
+  public:
+    int maxSmallest(int n,vector<int>&notes){
+        int start=0;
+        int end=notes.size()-1;
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            if(notes[mid]>n){
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+        }
+        return end;
+    }
+    vector<int> minPartition(int N) {
+        vector<int>ans;
+        vector<int>notes={1,2,5,10,20,50,100,200,500,2000};
+        while(N!=0){
+            int val=maxSmallest(N,notes);
+            ans.push_back(val);
+            N=N-val;
+        }
+        return ans;
+    }
+};
+
+BETTER-
+  vector<int> minPartition(int N) {                                      TC=O(10*N)=O(N)
+        vector<int>ans;                                                  SC=O(N)+o(N)
+        vector<int>notes={1,2,5,10,20,50,100,200,500,2000};
+        for(int i=notes.size()-1;i>=0 && N!=0;i--){
+            int coins=0;
+            if(notes[i]<=N){
+                coins=N/notes[i];
+                for(int j=0;j<coins;j++){
+                    ans.push_back(notes[i]);
+                }
+                N=N%notes[i];
+            }
+        }
+        return ans;
+    }
+optimal-                                                                  TC=O(10*N)=O(N)
+vector<int> minPartition(int N) {                                          SC=O(N)+O(N)
+        vector<int>ans;
+        vector<int>notes={1,2,5,10,20,50,100,200,500,2000};
+        for(int i=notes.size()-1;i>=0 && N!=0;i--){
+            while(notes[i]<=N){
+                ans.push_back(notes[i]);
+                N-=notes[i];
+            }
+        }
+        return ans;
+    }
