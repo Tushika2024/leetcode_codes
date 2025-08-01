@@ -1,0 +1,8 @@
+bool isSameTree(TreeNode* p, TreeNode* q) {                             TC=O(N)
+            if(p==NULL || q==NULL){                                      SC=O(HEIGHT)
+                return (p==q);                                                //CAN USE LEVEL ORDER TRAVERSAL
+            }
+            bool left=isSameTree(p->left,q->left);
+            bool right=isSameTree(p->right,q->right);
+            return (left && right && p->val==q->val);
+    }
