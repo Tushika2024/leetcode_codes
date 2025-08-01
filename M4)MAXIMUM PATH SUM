@@ -2,7 +2,7 @@ int maxSum(TreeNode *root,int &ans){                                        TC=O
         if(root==NULL){                                                     SC=O(HEIGHT)
             return 0;
         }
-        int ls=max(0,maxSum(root->left,ans));
+        int ls=max(0,maxSum(root->left,ans));                //TAKE CARE OF NEGATIVE VALUES ALWAYS TAKE POSITIVE SUM
         int rs=max(0,maxSum(root->right,ans));
         ans=max(ans,ls+rs+root->val);
         return max(ls,rs)+root->val;
