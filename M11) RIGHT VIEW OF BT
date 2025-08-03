@@ -1,0 +1,73 @@
+LEVEL ORDER TRAVERSAL-                                                        TC=O(N)
+   vector<int> rightSideView(TreeNode* root) {                                SC=O(N)  IN ALL CASES WORST OR AVERAGE
+        vector<int>ans;
+        if(root==NULL){
+            return ans;
+        }
+        queue<TreeNode*>q;
+        map<int,int>mp;
+        int level=0;
+        q.push(root);
+        while(!q.empty()){
+            int csize=q.size();
+            for(int i=0;i<csize;i++){
+                TreeNode *cnode=q.front();
+                q.pop();
+                mp[level]=cnode->val;
+                if(cnode->left !=NULL){
+                    q.push(cnode->left);
+                }
+                if(cnode->right !=NULL){
+                    q.push(cnode->right);
+                }
+            }
+            level++;
+        }
+        for(auto it:mp){
+            ans.push_back(it.second);
+        }
+        return ans;
+    }
+
+
+RECURSIVE-                                                                              TC=O(N)
+void right(TreeNode *root,int level,vector<int>&ans){                                   SC=O(H)  AVERAGE=LOGN WORST=N
+        if(root==NULL){
+            return;
+        }
+        if(level==ans.size()){
+            ans.push_back(root->val);
+        }
+        right(root->right,level+1,ans);
+        right(root->left,level+1,ans);
+        return;
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int>ans;
+        int level=0;
+        right(root,level,ans);
+        return ans;
+
+    }
+
+MY RECURSIVE USING MAP
+void right(TreeNode *root,int level,map<int,int>&mp){
+        if(root==NULL){
+            return;
+        }
+        mp[level]=root->val;
+        right(root->left,level+1,mp);
+        right(root->right,level+1,mp);
+        return;
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        map<int,int>mp;
+        vector<int>ans;
+        int level=0;
+        right(root,level,mp);
+        for(auto it:mp){
+            ans.push_back(it.second);
+        }
+        return ans;
+
+    }
