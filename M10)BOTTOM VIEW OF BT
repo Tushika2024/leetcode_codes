@@ -1,0 +1,24 @@
+vector<int> bottomView(Node *root) {                                    TC=O(N)+o(N)
+        queue<pair<Node*,int>>q;                                        SC=O(N)+O(2N)
+        map<int,int>mp;
+        q.push({root,0});
+        while(!q.empty()){
+            auto p=q.front();
+            Node *cnode=p.first;
+            int cvl=p.second;
+            q.pop();
+            mp[cvl]=cnode->data;
+            if(cnode->left !=NULL){
+                q.push({cnode->left,cvl-1});
+            }
+            if(cnode->right != NULL){
+                q.push({cnode->right,cvl+1});
+            }
+        }
+        vector<int>ans;
+        for(auto it:mp){
+            ans.push_back(it.second);
+        }
+        return ans;
+        
+    }
