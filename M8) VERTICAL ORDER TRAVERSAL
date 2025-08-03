@@ -1,0 +1,32 @@
+ vector<vector<int>> verticalTraversal(TreeNode* root) {                                TC=O(NLOGN)+O(N)
+        queue<pair<TreeNode*,pair<int,int>>>q;                                          SC=O(3N)+O(3N)
+        map<int,map<int,multiset<int>>>mp;
+        q.push({root,{0,0}});
+        while(!q.empty()){
+            int csize=q.size();
+            for(int i=0;i<csize;i++){
+                auto p=q.front();
+                TreeNode *cnode=p.first;
+                q.pop();
+                int v=p.second.first;
+                int l=p.second.second;
+                mp[v][l].insert(cnode->val);
+                if(cnode->left !=NULL){
+                    q.push({cnode->left,{v-1,l+1}});
+                }
+                if(cnode->right !=NULL){
+                    q.push({cnode->right,{v+1,l+1}});
+                }
+
+            }
+        }
+        vector<vector<int>>fans;
+        for(auto it:mp){
+            vector<int>ans;
+            for(auto itsec:it.second){
+                ans.insert(ans.end(),itsec.second.begin(),itsec.second.end());
+            }
+            fans.push_back(ans);
+        }
+        return fans;
+    }
