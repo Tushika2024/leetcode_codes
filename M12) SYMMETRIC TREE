@@ -1,0 +1,13 @@
+bool sym(TreeNode *lroot, TreeNode *rroot){                                          TC=O(N)
+       if(lroot==NULL || rroot==NULL) return lroot==rroot;                           SC=O(HEIGHT)
+       if(lroot->val != rroot->val) return false;
+        bool lans=sym(lroot->left,rroot->right);
+        bool rans=sym(lroot->right,rroot->left);
+        return lans && rans;
+    }
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL){
+            return true;
+        }
+        return sym(root->left,root->right);
+    }
