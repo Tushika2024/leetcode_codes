@@ -1,0 +1,51 @@
+ void lbt(Node *root,vector<int>&ans){                                        TC=O(H)+O(H)+O(N)
+        if(root==NULL){                                                        SC=O(H)
+            return;
+        }
+        if(root->left !=NULL || root->right!=NULL){
+            ans.push_back(root->data);
+        }
+        if(root->left !=NULL){
+            lbt(root->left,ans);
+        }else if(root->right !=NULL){
+            lbt(root->right,ans);
+        }
+        return;
+    }
+     void rbt(Node *root,vector<int>&ans){
+        if(root==NULL){
+            return;
+        }
+        
+        if(root->right !=NULL){
+            rbt(root->right,ans);
+        }else if(root->left !=NULL){
+            rbt(root->left,ans);
+        }
+        if(root->left !=NULL || root->right!=NULL){
+            ans.push_back(root->data);
+        }
+        return;
+    }
+    void leaf(Node *root,vector<int>&ans){
+        if(root->left==NULL && root->right==NULL){
+            ans.push_back(root->data);
+            return;
+        }
+        if(root->left !=NULL)leaf(root->left,ans);
+        if(root->right !=NULL)leaf(root->right,ans);
+        return;
+    }
+    
+    vector<int> boundaryTraversal(Node *root) {
+      
+       vector<int>ans;
+       if(root==NULL){
+           return ans;
+       }
+       if(root->left !=NULL || root->right !=NULL) ans.push_back(root->data);
+        lbt(root->left,ans);
+        leaf(root,ans);
+        rbt(root->right,ans);
+        return ans;
+    }
