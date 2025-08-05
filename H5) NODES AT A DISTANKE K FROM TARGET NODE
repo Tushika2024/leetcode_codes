@@ -1,0 +1,54 @@
+void parent(TreeNode *root,map<TreeNode* , TreeNode*>&mp){                        TC APPROX O(N)
+        queue<TreeNode*>q;                                                        SC APPROX O(N)
+        q.push(root);
+        while(!q.empty()){
+            TreeNode *cnode=q.front();
+            q.pop();
+            if(cnode->left !=NULL){
+                mp[cnode->left]=cnode;
+                q.push(cnode->left);
+            }
+            if(cnode->right !=NULL){
+                mp[cnode->right]=cnode;
+                q.push(cnode->right);
+            }
+        }
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        map<TreeNode*,TreeNode*>mp;
+        parent(root,mp);
+        queue<TreeNode*>qu;
+        map<TreeNode*,int>visited;
+        int currlevel=0;
+        qu.push(target);
+        visited[target]=1;
+        while(!qu.empty()){
+            int csize =qu.size();
+            if(currlevel++ ==k) break;
+            for(int i=0;i<csize;i++){
+                TreeNode *cnode=qu.front();
+           
+                qu.pop();
+                if(cnode->left && !visited[cnode->left]){
+                    qu.push(cnode->left);
+                    visited[cnode->left]=1;
+                }
+                if(cnode->right && !visited[cnode->right]){
+                    qu.push(cnode->right);
+                    visited[cnode->right]=1;
+                }
+                if(mp[cnode] && !visited[mp[cnode]]){
+                    qu.push(mp[cnode]);
+                    visited[mp[cnode]]=1;
+                }
+            }
+            
+        }
+        vector<int>ans;
+        while(!qu.empty()){
+            ans.push_back(qu.front()->val);
+            qu.pop();
+        }
+        return ans;
+
+    }
