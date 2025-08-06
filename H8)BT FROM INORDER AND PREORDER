@@ -1,0 +1,64 @@
+OPTIMAL-                                                                                        TC=O(NLOGN)
+  TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {                             TC=O(N)
+        map<int,int>mp;
+         for(int i=0;i<inorder.size();i++){
+            mp[inorder[i]]=i;
+        }
+        TreeNode* ans=build(preorder,0,preorder.size()-1,
+                            inorder,0,inorder.size()-1,mp);
+        return ans;
+    };
+    TreeNode* build(vector<int>&preorder,int prest,int preend,
+            vector<int>&inorder,int inst,int inend,map<int,int>&mp){
+       if(prest>preend || inst>inend){
+            return NULL;
+       }
+       TreeNode *nroot=new TreeNode(preorder[prest]);
+       int idx=mp[nroot->val];
+       int numsleft=idx-inst;
+       nroot->left=build(preorder,prest+1,prest+numsleft,
+                        inorder,inst,idx-1,mp);
+        nroot->right=build(preorder,prest+numsleft+1,preend,
+                        inorder,idx+1,inend,mp);
+        return nroot;
+    }
+
+MY APPROACH-
+TreeNode* build(vector<int>&preorder,vector<int>&inorder,vector<int>newi){                          TC=O(N2)
+        if(!newi.size()){                                                                           SC=O(2N)
+            return NULL;
+        }
+        vector<int>newi_left;
+        vector<int>newi_right;
+        int el=-1;
+        TreeNode *nroot=new TreeNode(preorder[0]);
+        for(int i=0;i<newi.size();i++){
+            if(newi[i]==nroot->val){
+                break;
+            }else{
+                el=i;
+            }
+        }
+        if(el!=-1){
+            for(int i=0;i<=el;i++){
+                newi_left.push_back(newi[i]);
+            
+            }
+        }
+        if((el+2)<newi.size()){
+            for(int i=el+2;i<newi.size();i++){
+                newi_right.push_back(newi[i]);
+            }
+        }
+        preorder.erase(preorder.begin(),preorder.begin()+1);
+        nroot->left=build(preorder,inorder,newi_left);
+        nroot->right=build(preorder,inorder,newi_right);
+        return nroot;
+
+        
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        TreeNode *ans=build(preorder,inorder,inorder);
+        return ans;
+    }
+};
