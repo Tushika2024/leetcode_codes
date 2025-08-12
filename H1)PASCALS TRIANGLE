@@ -1,8 +1,12 @@
- vector<vector<int>> generate(int numRows) {
+ MY CODE-
+vector<vector<int>> generate(int numRows) {  TC=O(N2)
+       vector<vector<int>> generate(int numRows) {
         vector<int>ans;
         vector<vector<int>>fans;
+        if(!numRows) return fans;
         ans.push_back(1);
         fans.push_back(ans);
+        if(numRows==1) return fans;
         for(int i=1;i<numRows;i++){
             vector<int>ans;
             ans.push_back(fans[i-1][0]);
@@ -13,5 +17,31 @@
             fans.push_back(ans);
         }
         
+        return fans;
+    }
+   }
+
+
+STRIVER-
+1- FOR SINGLE ELEMENT OF PASCALS TRIANGLE USE nCr CONCEPT;         TC=O(N)
+2- FOR SINGLE ROW BRUTE-nCr;                                       TC=O(N2)
+                  BETTER- PATTERN FINDING                          TC=O(N)
+3- FOR WHOLE PASCAL TRIANGLE TILL NROWS  USE 2 BETTER              TC=O(N2)
+vector<int>generateRows(int row){
+        vector<int>ans;
+        ans.push_back(1);
+        long long res=1;
+        for(int i=1;i<row;i++){
+            res*=(row-i);
+            res/=i;
+            ans.push_back(res);
+        }
+        return ans;
+    }
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>>fans;
+        for(int i=1;i<=numRows;i++){
+            fans.push_back(generateRows(i));
+        }
         return fans;
     }
