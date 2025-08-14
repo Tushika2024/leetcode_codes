@@ -1,0 +1,16 @@
+BRUTE- BY FORMING ALL SUBAARAYS
+OPTIMAL-
+long subarrayXor(vector<int> &arr, int k) {
+        // code here
+        map<int,int>mp;//prefixxor,freq
+        int pxor=0;
+        mp[pxor]++;
+        long long count=0;
+        for(int i=0;i<arr.size();i++){
+             pxor=pxor^arr[i];
+            int reqel=k^pxor;
+            count+=mp[reqel];
+            mp[pxor]++;
+        }
+        return count;
+    }
