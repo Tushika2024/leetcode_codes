@@ -1,0 +1,78 @@
+BRUTE-                                                            GFG
+  void mergeArrays(vector<int>& a, vector<int>& b) {
+        // code here
+        vector<int>ans;
+        int i=0;
+        int j=0;
+        while(i<a.size() && j<b.size()){
+            if(a[i]<=b[j]){
+                ans.push_back(a[i]);
+                i++;
+            }else{
+                ans.push_back(b[j]);
+                j++;
+            }
+        }
+        while(i<a.size()){
+            ans.push_back(a[i]);
+            i++;
+        }
+        while(j<b.size()){
+            ans.push_back(b[j]);
+            j++;
+        }
+        for(int i=0;i<ans.size();i++){
+            if(i<a.size()){
+                a[i]=ans[i];
+            }else{
+                b[(i-a.size())]=ans[i];
+            }
+        }
+  BEETTER-
+    int left=a.size()-1;
+        int right=0;
+        while(left<a.size() && right<b.size()){
+            if(a[left]>b[right]){
+                swap(a[left],b[right]);
+                left--;
+                right++;
+            }else{
+                break;
+            }
+        }
+        sort(a.begin(),a.end());
+        sort(b.begin(),b.end());
+    }
+
+OPTIMAL - GAP METHOD SHELL SORT
+void swapGreater(vector<int>& a, vector<int>& b,int indx1,int indx2){
+        if(a[indx1]>b[indx2]){
+            swap(a[indx1],b[indx2]);
+        }
+    }
+    void mergeArrays(vector<int>& a, vector<int>& b) {
+        int n=a.size();
+        int m=b.size();
+        int len=m+n;
+        int gap=(len/2)+(len%2);
+        while(gap>0){
+            int left=0;
+            int right=left+gap;
+            while(right<len){
+                if(left<n && right>=n){
+                    swapGreater(a,b,left,right-n);
+                }
+                else if(left>=n){
+                    swapGreater(b,b,left-n,right-n);
+                }else{
+                    swapGreater(a,a,left,right);
+                }
+                left++;
+                right++;
+            }
+            
+            if(gap==1) break;
+            gap=(gap/2)+(gap%2);
+        }
+    }
+    }
