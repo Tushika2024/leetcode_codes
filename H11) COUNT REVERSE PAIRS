@@ -1,0 +1,103 @@
+BRUTE-  TC=O(N2)
+OPTIMAL MINE -
+  int merge(vector<int>&nums,int st,int mid,int end){
+        int count=0;
+        vector<int>ans;
+        int i=st;
+        int j=mid+1;
+        while(i<=mid && j<=end){
+            if(nums[i]>(2LL * nums[j])){
+                count+=(mid-i+1);
+                // ans.push_back(nums[j]);
+                j++;
+            }else{
+                // ans.push_back(nums[i]);
+                i++;
+            }
+        }
+        i=st;
+        j=mid+1;
+        while(i<=mid && j<=end){
+            if(nums[i]>(nums[j])){
+                // count+=(mid-i+1);
+                ans.push_back(nums[j]);
+                j++;
+            }else{
+                ans.push_back(nums[i]);
+                i++;
+            }
+        }
+        while(i<=mid){
+            ans.push_back(nums[i]);
+            i++;
+        }
+        while(j<=end){
+            ans.push_back(nums[j]);
+            j++;
+        }
+        for(int k=st;k<=end;k++){
+            nums[k]=ans[k-st];
+        }
+        return count;
+    }
+    int mergeSort(vector<int>&nums,int st,int end){
+        if(st>=end) return 0;
+        int mid=st+((end-st)/2);
+        int count=0;
+        count+=mergeSort(nums,st,mid);
+        count+=mergeSort(nums,mid+1,end);
+        count+=merge(nums,st,mid,end);
+        return count;
+    }
+    int reversePairs(vector<int>& nums) {
+        return mergeSort(nums,0,nums.size()-1);
+    }
+
+STRIVER OPTIMAL ONY LOGIC OF COUNTING CHANGES                write different function for counting    TC=O(2NLOGN) SC=O(N)
+   int merge(vector<int>&nums,int st,int mid,int end){
+        int count=0;
+        vector<int>ans;
+        int j=mid+1;
+        for(int i=st;i<=mid;i++){
+            while(j<=end && nums[i]>(2LL * nums[j])) {
+                j++;
+            }
+            count+=(j-(mid+1));
+        }
+        int i=st;
+        j=mid+1;
+        while(i<=mid && j<=end){
+            if(nums[i]>(nums[j])){
+                // count+=(mid-i+1);
+                ans.push_back(nums[j]);
+                j++;
+            }else{
+                ans.push_back(nums[i]);
+                i++;
+            }
+        }
+        while(i<=mid){
+            ans.push_back(nums[i]);
+            i++;
+        }
+        while(j<=end){
+            ans.push_back(nums[j]);
+            j++;
+        }
+        for(int k=st;k<=end;k++){
+            nums[k]=ans[k-st];
+        }
+        return count;
+    }
+    int mergeSort(vector<int>&nums,int st,int end){
+        if(st>=end) return 0;
+        int mid=st+((end-st)/2);
+        int count=0;
+        count+=mergeSort(nums,st,mid);
+        count+=mergeSort(nums,mid+1,end);
+        count+=merge(nums,st,mid,end);
+        return count;
+    }
+    int reversePairs(vector<int>& nums) {
+        return mergeSort(nums,0,nums.size()-1);
+    }
