@@ -1,0 +1,16 @@
+BRUTE- O(N2)
+
+OPTIMAL-
+   int maxProduct(vector<int>& nums) {
+      int pp=1;
+      int sp=1;
+      int maxp=INT_MIN;
+      for(int i=0;i<nums.size();i++){
+        if(pp==0) pp=1;
+        if(sp==0) sp=1;
+        pp*=nums[i];
+        sp*=nums[nums.size()-i-1];
+        maxp=max(maxp,max(pp,sp));
+      }
+      return maxp;
+    }
