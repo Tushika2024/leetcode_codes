@@ -1,0 +1,69 @@
+OPTIMAL- TC=O(N) 
+vector<int> rearrangeArray(vector<int>& nums) {
+        int p=0;
+        int n=1;
+        vector<int>ans(nums.size());
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>=0){
+                ans[p]=nums[i];
+                p+=2;
+            }else{
+                ans[n]=nums[i];
+                n+=2;
+            }
+        }
+        return ans;
+    }
+MY BRUTE-TC=O(NLOGN)+(N) SC=O(2N)
+vector<int>ans(nums.size());
+        int cp=0;
+        int cn=0;
+        map<int,int>mpp;
+        map<int,int>mpn;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>=0){
+                mpp[cp++]=nums[i];
+            }else{
+                mpn[cn++]=nums[i];
+            }
+        }
+        int p=0;
+        for(auto it:mpp){
+            ans[p]=it.second;
+            p+=2;
+        }
+        int n=1;
+        for(auto it:mpn){
+            ans[n]=it.second;
+            n+=2;
+        }
+        return ans;
+    }
+
+II VARIETY                      THIS BECOMES BRUTE ALSO FOR 1 ST VARIETY BETTER THAN MY BRUTE  II VARIETY NO OF POSITIVES NOT EQUAL TO NEGATIVES   TC=O(N)+o(MIN)+O(LEFTOVER)=O(2N) SC=O(N)
+void rearrange(vector<int> &arr) {
+        // code here
+        vector<int>ans(arr.size());
+        vector<int>p;
+        vector<int>n;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]>=0){
+                p.push_back(arr[i]);
+            }else{
+                n.push_back(arr[i]);
+            }
+        }
+        for(int i=0;i<min(p.size(),n.size());i++){
+            arr[2*i]=p[i];
+            arr[2*i+1]=n[i];
+        }
+        int idx=min(p.size(),n.size())*2;
+        for(int i=min(p.size(),n.size());i<max(p.size(),n.size());i++){
+            if(p.size()>n.size()){
+                arr[idx++]=p[i];
+            }else{
+                arr[idx++]=n[i];
+            }
+        }
+         
+    }
