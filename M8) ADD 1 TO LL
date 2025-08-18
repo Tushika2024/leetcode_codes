@@ -1,0 +1,23 @@
+OPTIMAL-
+int add(Node *temp){
+        if(temp==NULL){
+            return 1 ;
+        }
+        int val=add(temp->next)+temp->data;
+        if(val>=10){
+            temp->data=0;
+            return 1;
+        }else{
+            temp->data=val;
+            return 0;
+        }
+        
+    }
+    Node* addOne(Node* head) {
+       if(add(head)){
+           Node *nnode=new Node(1);
+           nnode->next=head;
+           head=nnode;
+       }
+       return head;
+    }
