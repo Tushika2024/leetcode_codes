@@ -77,3 +77,50 @@ OPTIMAL-
         if(tens!=0) ans.push_back(tens);
         return formation(ans,0);
     }
+
+optimised-
+ListNode* formation(int val,ListNode* &temp, ListNode* &head){
+        ListNode *nnode=new ListNode(val);
+        if(head==NULL){
+            head=nnode;
+            temp=head;
+        }else{
+            temp->next=nnode;
+            temp=nnode;
+        }
+        return head;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *head=NULL;
+        ListNode *temp=head;
+        vector<int>ans;
+        ListNode *temp1=l1;
+        ListNode *temp2=l2;
+        int tens=0;
+        int ones=0;
+        while(temp1!=NULL && temp2!=NULL){
+            int sum=(temp1->val)+(temp2->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            formation(ones,temp,head);
+            temp1=temp1->next;
+            temp2=temp2->next;
+        }
+        while(temp1!=NULL){
+            int sum=(temp1->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            formation(ones,temp,head);
+            temp1=temp1->next;
+        }
+        while(temp2!=NULL){
+            int sum=(temp2->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            formation(ones,temp,head);
+            temp2=temp2->next;
+        }
+        if(tens!=0) return formation(tens,temp,head);
+        return head;
+    }
+};
