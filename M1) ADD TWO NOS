@@ -1,0 +1,79 @@
+  int number(vector<int>vec){
+        int no=0;
+        for(int i=vec.size()-1;i>=0;i--){
+            no=(no*10)+vec[i];
+        }
+        return no;
+    }
+    ListNode* formation(vector<int>vec,int idx){
+        if(idx>=vec.size()) return NULL;
+        ListNode *nnode=new ListNode(vec[idx]);
+        nnode->next=formation(vec,++idx);
+        return nnode;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        vector<int>l1val;
+        vector<int>l2val;
+        ListNode *temp1=l1;
+        while(temp1!=NULL){
+            l1val.push_back(temp1->val);
+            temp1=temp1->next;
+        }
+        ListNode *temp2=l2;
+        while(temp2!=NULL){
+            l2val.push_back(temp2->val);
+            temp2=temp2->next;
+        }
+        int no1=number(l1val);
+        int no2=number(l2val);
+        int res=no1+no2;
+        vector<int>fval;
+        if(res==0){
+            fval={0};
+            return formation(fval,0);
+        }
+        while(res!=0){
+            fval.push_back(res%10);
+            res/=10;
+        }
+        return formation(fval,0);
+
+
+OPTIMAL-
+  ListNode* formation(vector<int>&vec,int idx){
+        if(idx>=vec.size()) return NULL;
+        ListNode *nnode=new ListNode(vec[idx]);
+        nnode->next=formation(vec,++idx);
+        return nnode;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        vector<int>ans;
+        ListNode *temp1=l1;
+        ListNode *temp2=l2;
+        int tens=0;
+        int ones=0;
+        while(temp1!=NULL && temp2!=NULL){
+            int sum=(temp1->val)+(temp2->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            ans.push_back(ones);
+            temp1=temp1->next;
+            temp2=temp2->next;
+        }
+        while(temp1!=NULL){
+            int sum=(temp1->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            ans.push_back(ones);
+            temp1=temp1->next;
+        }
+        while(temp2!=NULL){
+            int sum=(temp2->val)+tens;
+            ones=sum%10;
+            tens=sum/10;
+            ans.push_back(ones);
+            temp2=temp2->next;
+        }
+        if(tens!=0) ans.push_back(tens);
+        return formation(ans,0);
+    }
