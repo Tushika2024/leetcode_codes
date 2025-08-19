@@ -1,0 +1,16 @@
+BRUTE - TC=O(NLOGN+N) SC=O(N)
+ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL) return head;
+        set<int>st;
+        ListNode *temp=head;
+        while(temp!=NULL){
+            st.insert(temp->val);
+            temp=temp->next;
+        }
+        temp=head;
+        for(auto it:st){
+            temp->val=it;
+            temp=temp->next;
+        }
+        return head;
+    }
