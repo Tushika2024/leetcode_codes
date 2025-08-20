@@ -1,4 +1,4 @@
-class Solution {
+class Solution { TC=O(2 RAISE TO POWER N)  SC=O(N)
 public:
     void findSubsets(int i,vector<int> &nums,vector<int> sub,vector<vector<int>> &fans){
         if(i==nums.size()){
