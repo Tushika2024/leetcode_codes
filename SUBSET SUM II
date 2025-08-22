@@ -1,0 +1,21 @@
+void sub(vector<int>&nums,vector<vector<int>>&fans,vector<int>ans,int idx){ TC=O(2 POW N *K(K AVERAGE LENGTH OF EACH SUBSET FOR PUTTING INTO FANS) SC=O(N)+(2 POW N *K)
+        if(idx==nums.size()){
+            return;
+        }
+        for(int i=idx;i<nums.size();i++){
+            if(i>idx && nums[i]==nums[i-1]) continue;
+            ans.push_back(nums[i]);
+            fans.push_back(ans);
+            sub(nums,fans,ans,i+1);
+            ans.pop_back();
+        }
+        
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>>fans;
+        vector<int>ans;
+        fans.push_back({});
+        sub(nums,fans,ans,0);
+        return fans;
+    }
