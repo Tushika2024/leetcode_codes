@@ -1,0 +1,22 @@
+void cs3(vector<vector<int>>&fans,vector<int>ans,int idx,int k,   TC=O(K* 9CK)  SC=O(K*9CK)   K IN TC PUSHING ANS TO FANS OF LENGTH K FOR EACH COMBINATION
+            int n,int s,int l){                                      K IN SC FOR  K LEVEL RECURSIVE STACK AND WORST ALL COMBINATIONS OF K LEGTH TO FANS
+                if(l==k && s==n){
+                    fans.push_back(ans);
+                    return;
+                }
+                if(idx>9){
+                    return;
+                }
+                if(s>n) return;
+                ans.push_back(idx);
+                cs3(fans,ans,idx+1,k,n,s+idx,l+1);
+                ans.pop_back();
+                cs3(fans,ans,idx+1,k,n,s,l);
+                
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>>fans;
+        vector<int>ans;
+        cs3(fans,ans,1,k,n,0,0);
+        return fans;
+    }
