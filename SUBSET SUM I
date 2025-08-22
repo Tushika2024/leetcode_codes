@@ -1,0 +1,14 @@
+void cs(vector<int>&arr,vector<int>&ans,int idx,int sum){  TC=O(2 RAISE TO POWER N )  SC=O(N)(RECURSIVE STACK) + O(2 RAISE TO POWER N )(FOR STORING RESULTS)
+        if(idx==arr.size()){
+            ans.push_back(sum);
+            return;
+        }
+        cs(arr,ans,idx+1,sum+arr[idx]);
+        cs(arr,ans,idx+1,sum);
+    }
+    vector<int> subsetSums(vector<int>& arr) {
+        // code here
+        vector<int>ans;
+        cs(arr,ans,0,0);
+        return ans;
+    }
