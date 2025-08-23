@@ -1,0 +1,31 @@
+bool p(string str,int st,int end){
+        while(st<=end){                                        TC=O(2 POWER N *N)  EACH POSITION CAN BE PARTITION OR NOT AND N FOR PALINDROMING EACH TIME ABOUT N LENGTH 
+            if(str[st]!=str[end]) return false;          SC=O(N)+TC 
+            st++;
+            end--;
+        }
+        return true;
+    }
+    void par(string &s,vector<vector<string>>&fans,vector<string>ans,
+            int idx){
+                if(idx==s.size()){
+                    fans.push_back(ans);
+                    return ;
+                } 
+                for(int i=idx;i<s.size();i++){
+                    if(!p(s,idx,i)){
+                        continue;
+                    }
+                    ans.push_back(s.substr(idx,i-idx+1));
+                    par(s,fans,ans,i+1);
+                    ans.pop_back();
+                }
+                return;
+        }
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>>fans;
+        string str="";
+        vector<string>ans;
+        par(s,fans,ans,0);
+        return fans;
+    }
