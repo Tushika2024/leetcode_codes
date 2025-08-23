@@ -1,0 +1,30 @@
+bool ws(vector<vector<char>>& board, string &word,int rn,int sn,
+            int idx,vector<vector<bool>>&st){                  TC=O(R×C×4L)  SC=O(R×C+L)
+        if(idx==word.size()){
+            return true;
+        }
+        if(rn>=board.size() || sn>=board[0].size() || 
+                rn<0 ||sn<0 || 
+                board[rn][sn]!=word[idx]|| 
+                st[rn][sn]) return false;
+        st[rn][sn]=true;
+        bool res=(ws(board,word,rn+1,sn,idx+1,st)||
+                ws(board,word,rn,sn+1,idx+1,st)||
+                ws(board,word,rn-1,sn,idx+1,st)||
+                ws(board,word,rn,sn-1,idx+1,st));
+        st[rn][sn]=false;
+        return res;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int r=board.size();
+        int col=board[0].size();
+        vector<vector<bool>>st(r,vector<bool>(col,false));
+        for(int i=0;i<r;i++){
+            for(int j=0;j<col;j++){
+                if(board[i][j]==word[0]){
+                    if(ws(board,word,i,j,0,st)) return true;
+                }
+            }
+        }
+        return false;
+    }
