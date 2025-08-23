@@ -1,0 +1,32 @@
+void lc(string &digits,vector<string>&fans,string ans,  LET AVERAGE LENGTH OF EACH VECTOR=K N=SIZE OF DIGITS TC=O(K POW N)  SC=O(N)+O(K POW N (FOR VECTOR FANS)* N(FOR ANS STRING )
+            vector<string>&str,int l){
+                if(l==digits.size()){
+                    fans.push_back(ans);
+                    return;
+                }
+                for(int i=0;i<str[digits[l]-'0'].size();i++){
+                    ans.push_back(str[digits[l]-'0'][i]);
+                    lc(digits,fans,ans,str,l+1);
+                    ans.pop_back();
+                }
+            }
+    vector<string> letterCombinations(string digits) {
+        vector<string>fans;
+        string ans;
+        vector<string>str(10);
+        str[0]="";
+        str[1]="";
+        str[2]="abc";
+        str[3]="def";
+        str[4]="ghi";
+        str[5]="jkl";
+        str[6]="mno";
+        str[7]="pqrs";
+        str[8]="tuv";
+        str[9]="wxyz";
+        if(!digits.size()){
+            return fans;
+        }
+        lc(digits,fans,ans,str,0);
+        return fans;
+    }
