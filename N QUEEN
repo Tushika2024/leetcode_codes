@@ -1,0 +1,34 @@
+  void nq(vector<vector<string>>&fans,vector<string>&board,  TC=O(N!+S⋅N2)   SC= BOARD= N2  UPPCOOL,LD,RD=N  FANS=S*N2(S TOTAL POSSIBLE COMBINATIONS) RECURSION STACK=N
+             vector<int>&uppcol, vector<int>&lud,
+              vector<int>&rud,int r,int n){
+        if(r==n){
+            fans.push_back(board);
+            return;
+        }
+        for(int col=0;col<n;col++){
+            if(!uppcol[col] && (!lud[n-1+(col-r)]) && (!rud[col+r])){
+                board[r][col]='Q';
+                uppcol[col]=1;
+                lud[n-1+(col-r)]=1;
+                rud[col+r]=1;
+                nq(fans,board,uppcol,lud,rud,r+1,n);
+                board[r][col]='.';
+                uppcol[col]=0;
+                lud[n-1+(col-r)]=0;
+                rud[col+r]=0;
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string>board(n);
+        string str(n,'.');
+        vector<int>uppcol(n,0);
+        vector<int>lud(2*n-1,0);
+        vector<int>rud(2*n-1,0);
+        for(int i=0;i<n;i++){
+            board[i]=str;
+        }
+        vector<vector<string>>fans;
+        nq(fans,board,uppcol,lud,rud,0,n);
+        return fans;
+    }
