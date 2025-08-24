@@ -1,0 +1,33 @@
+BRUTE- REPLACE OUTER BS LOOP TO LINEAR FOR LOOP BREAK WHEN ISsAFE GIVES FALSE;
+OP-
+bool canPlace(vector<int>&stalls,int k,int cd){
+        int count=1;                                       TC=O(N*LOG BASE 2(MAX-MIN)) SC=O(1)
+        int prev=stalls[0];
+        for(int i=1;i<stalls.size();i++){
+            if(stalls[i]-prev>=cd) {
+                count++;
+                prev=stalls[i];
+            }
+           if(count>=k) return true;
+        }
+        if(count>=k) return true;
+        return false;
+    }
+    int aggressiveCows(vector<int> &stalls, int k) {
+        // code here
+        sort(stalls.begin(),stalls.end());
+        int maxlimit=stalls[stalls.size()-1]-stalls[0];
+        // int ans=INT_MIN;
+        
+        int st=1;
+        int end=maxlimit;
+        while(st<=end){
+            int mid=st+((end-st)/2);
+            if(canPlace(stalls,k,mid)){
+                st=mid+1;
+            }else{
+                end=mid-1;
+            }    
+        }
+        return end;
+    }
