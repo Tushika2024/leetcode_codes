@@ -1,0 +1,27 @@
+bool isSafe(int vertex,int col,vector<int>&currcol,vector<vector<int>>&edges){  TC=O(V POWER M   * NO OF EDGES)  SC=O(V  STACK+V CURRCOL)
+        for(int j=0;j<edges.size();j++){
+            if(edges[j][0]==vertex && currcol[vertex]==currcol[edges[j][1]]){
+                return false;
+            }else if(edges[j][1]==vertex && currcol[vertex]==currcol[edges[j][0]]){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool color(vector<vector<int>>&edges,int m,int v,
+                vector<int>&currcol,int vertex){
+                    if(vertex==v) return true;
+                    for(int i=1;i<=m;i++){
+                        if(isSafe(vertex,i,currcol,edges)){
+                            currcol[vertex]=i;
+                            if(color(edges,m,v,currcol,vertex+1)) return true;
+                            currcol[vertex]=0;
+                        }
+                    }
+                    return false;
+                }
+    bool graphColoring(int v, vector<vector<int>> &edges, int m) {
+        // code here
+        vector<int>currcol(v,0);
+        return color(edges,m,v,currcol,0);
+    }
