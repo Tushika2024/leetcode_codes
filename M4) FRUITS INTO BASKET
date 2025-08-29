@@ -1,0 +1,57 @@
+int totalFruit(vector<int>& fruits) {
+        int maxlen=INT_MIN;
+        for(int i=0;i<fruits.size();i++){
+            int ef=-1;
+            int sf=fruits[i];
+            for(int j=i+1;j<fruits.size();j++){
+                if(fruits[j]!=sf && ef==-1){
+                    ef=fruits[j];
+                }
+                if(fruits[j]!=sf && fruits[j]!=ef) break;
+                maxlen=max(maxlen,j-i+1);
+            }
+        }
+        return maxlen;
+    }
+
+BETTER- TC=O(2N)  SC=O(3)
+    int totalFruit(vector<int>& fruits) {
+       int st=0;
+       int end=0;
+       int maxlen=0;
+       unordered_map<int,int>mp;
+       while(end<fruits.size()){
+            mp[fruits[end]]++;
+            if(mp.size()>2){
+                while(mp.size()>2){
+                    mp[fruits[st]]--;
+                    if(!mp[fruits[st]]) mp.erase(fruits[st]);
+                    st++;
+                }
+            }else{
+                maxlen=max(maxlen,end-st+1);
+            }
+            end++;
+       }
+       return maxlen;
+
+OPTIMAL-
+    int totalFruit(vector<int>& fruits) {
+       int st=0;
+       int end=0;
+       int maxlen=0;
+       unordered_map<int,int>mp;
+       while(end<fruits.size()){
+            mp[fruits[end]]++;
+            if(mp.size()>2){
+               mp[fruits[st]]--;
+               if(!mp[fruits[st]]) mp.erase(fruits[st]);
+               st++;
+            }else{
+                maxlen=max(maxlen,end-st+1);
+            }
+            end++;
+       }
+       return maxlen;
+    }
+    }
