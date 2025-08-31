@@ -1,0 +1,43 @@
+BRUTE - N2
+BETTER- TC=O(2N*26) C=O(26)
+int characterReplacement(string s, int k) {
+       int maxlen=0;
+       int maxf=0;
+       int st=0;
+       int end=0;
+       vector<int>freq(26,0);
+       while(end<s.size()){
+            freq[s[end]-'A']++;
+            maxf=max(maxf,freq[s[end]-'A']);
+            while((end-st+1)-maxf > k){
+                freq[s[st]-'A']--;
+                for(int i=0;i<26;i++){
+                    maxf=max(maxf,*max_element(freq.begin(),freq.end()));
+                }
+                st++;
+            }
+            if((end-st+1)-maxf <=k) maxlen=max(maxlen,end-st+1);
+            end++;
+       }
+       return maxlen;
+    }
+
+OPTIMAL TC=O(N) SC=O(26)
+int characterReplacement(string s, int k) {
+       int maxlen=0;
+       int maxf=0;
+       int st=0;
+       int end=0;
+       vector<int>freq(26,0);
+       while(end<s.size()){
+            freq[s[end]-'A']++;
+            maxf=max(maxf,freq[s[end]-'A']);
+            if((end-st+1)-maxf > k){
+                freq[s[st]-'A']--;
+                st++;
+            }
+            if((end-st+1)-maxf <=k) maxlen=max(maxlen,end-st+1);
+            end++;
+       }
+       return maxlen;
+    }
