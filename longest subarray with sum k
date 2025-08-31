@@ -1,0 +1,26 @@
+brute - n2
+better or optimal for negatives included-
+prfix sum  nlogn n
+int longestSubarray(vector<int>& arr, int k) {
+        // code here
+        map<long long,int>mp;//ps,idx;
+        mp[0]=0;
+        long long ps=0;
+        int maxl=0;
+        for(int i=0;i<arr.size();i++){
+            ps+=arr[i];
+            long long req=ps-k;
+            if(mp.find(req)!=mp.end()){
+                int len=i-mp[req]+1;
+                maxl=max(maxl,len);
+            }
+            if(mp.find(ps)==mp.end()){
+                mp[ps]=i+1;
+            }
+            
+            
+        }
+        return maxl;
+
+optimal- sliding window and two pointer approach  only for positives
+    }
