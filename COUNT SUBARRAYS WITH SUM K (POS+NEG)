@@ -1,0 +1,27 @@
+BRUTE N2 
+int subarraySum(vector<int>& nums, int k) {
+        int c=0;
+        for(int i=0;i<nums.size();i++){
+            int sum=0;
+            for(int j=i;j<nums.size();j++){
+                sum+=nums[j];
+                if(sum==k) c++;
+            }
+        }
+        return c;
+    }
+
+OPTIMAL- PREFIX SUM NLOGN  SC=O(N)
+ int subarraySum(vector<int>& nums, int k) {
+        int count=0;
+        long long ps=0;
+        map<long long,int>mp;  //(ps,freq)
+        mp[ps]=1;
+        for(int i=0;i<nums.size();i++){
+            ps+=nums[i];
+            long long req=ps-k;
+            count+=mp[req];
+            mp[ps]++;
+        }
+        return count;
+    }
