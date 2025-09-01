@@ -1,0 +1,33 @@
+BRUTE - O(N2)
+BETTER -O(2N)
+int numberOfSubstrings(string s) {
+        unordered_map<char,int>mp;
+        mp['a']=0;
+        mp['b']=0;
+        mp['c']=0;
+        int st=0,end=0,ans=0;
+        while(end<s.size()){
+            mp[s[end]]++;
+            while(mp['a']>=1 && mp['b']>=1 && mp['c']>=1){
+                ans+=(s.size()-end);
+                mp[s[st]]--;
+                st++;
+            }
+            end++;
+        }
+        return ans;
+    }
+
+OPTIMAL- O(N)
+int numberOfSubstrings(string s) {
+        int count=0;
+        vector<int>lastcheck(3,-1);
+        for(int i=0;i<s.size();i++){
+            lastcheck[s[i]-'a']=i;
+            if(lastcheck[0]!=-1 && lastcheck[1]!=-1
+                 && lastcheck[2]!=-1){
+                count+=(1+*min_element(lastcheck.begin(),lastcheck.end()));
+            }
+        }
+        return count;
+    }
