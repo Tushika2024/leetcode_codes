@@ -1,0 +1,43 @@
+     BETTER -            TC=O(2*K)  SC=O(1)
+int maxScore(vector<int>& cardPoints, int k) {
+        int n=cardPoints.size();
+        if(k==n) return accumulate(cardPoints.begin(),cardPoints.end(),0);
+        int st=n-k;
+        int end=st;
+        int maxidx=(st+(2*k));
+        int maxsum=0,sum=0;
+        while(end!=maxidx){
+            sum+=cardPoints[end%n];
+            if((end-st+1)<k){
+                end=(end+1);
+                continue;
+            }else{
+                maxsum=max(maxsum,sum);
+                sum-=cardPoints[st%n];
+                st=(st+1);
+            }
+            end=(end+1);
+        }
+        return maxsum;
+    }
+OPTIMAL-
+int maxScore(vector<int>& cardPoints, int k) {
+        int n=cardPoints.size();
+        if(k==n) return accumulate(cardPoints.begin(),cardPoints.end(),0);
+        int st=0,end=0,maxsum=0,sum=0;
+        while(end!=k){
+            sum+=cardPoints[end];
+            end++;
+        }
+        maxsum=max(maxsum,sum);
+        end--;
+        while(end>=0){
+            sum-=cardPoints[end];
+            end--;
+            if(st==0) st=n-1;
+            else st--;
+            sum+=cardPoints[st];
+            maxsum=max(maxsum,sum);
+        }
+        return maxsum;
+    }
