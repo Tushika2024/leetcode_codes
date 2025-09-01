@@ -1,0 +1,19 @@
+BRUTE- N2 
+OPTIMAL-
+int helper(vector<int>&nums,int k){
+        if(k<0) return 0;
+        int odd=0,st=0,end=0,count=0;
+        while(end<nums.size()){
+            if(nums[end] & 1) odd++;
+            while(odd >k){
+                if(nums[st]&1) odd--;
+                st++;
+            }
+            if(odd<=k) count+=(end-st+1);
+            end++;
+        }
+        return count;
+    }
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        return helper(nums,k)-helper(nums,k-1);
+    }
