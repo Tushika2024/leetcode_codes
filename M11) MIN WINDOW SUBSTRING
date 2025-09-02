@@ -1,0 +1,58 @@
+BETTER-
+bool check(map<char,int>&mporg,map<char,int>&mp){
+        for(auto it:mporg){
+            if(mp[it.first]<it.second) return false;
+        }
+        return true;
+    }
+    string minWindow(string s, string t) {
+        map<char,int>mporg;
+        map<char,int>mp;
+        for(int i=0;i<t.size();i++){
+            mporg[t[i]]++;
+        }
+        int st=0,end=0,minlen=INT_MAX;
+        int stans=-1,endans=-1;
+        while(end<s.size()){
+            mp[s[end]]++;
+            while(check(mporg,mp)){
+                if((end-st+1)<minlen){
+                    stans=st;
+                    endans=end;
+                    minlen=end-st+1;
+                }
+                mp[s[st]]--;
+                if(!mp[s[st]]) mp.erase(s[st]);
+                st++;
+            }
+            end++;
+        }
+        if(stans==-1) return "";
+        return s.substr(stans,minlen);
+    }
+
+OPTIMAL TC=O(M+2N)  SC=O(256)
+string minWindow(string s, string t) {
+        vector<int>mp(256,0);
+        for(int i=0;i<t.size();i++){
+            mp[t[i]]++;
+        }
+        int st=0,end=0,minlen=INT_MAX;
+        int stans=-1,count=0;
+        while(end<s.size()){
+            if(mp[s[end]]>0) count++;
+            mp[s[end]]--;    
+            while(count==t.size()){
+                if((end-st+1)<minlen){
+                    stans=st;
+                    minlen=end-st+1;
+                }
+                mp[s[st]]++;
+                if(mp[s[st]]>0) count--;
+                st++;
+            }
+            end++;
+        }
+        if(stans==-1) return "";
+        return s.substr(stans,minlen);
+    }
