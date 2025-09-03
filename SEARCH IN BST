@@ -1,0 +1,27 @@
+RECURSIVE APPROACH -     TC=SC=O(HEIGHT)
+ TreeNode* findnode(TreeNode *node,int val){
+        if(node==NULL) return NULL;
+        if(node->val==val){
+            return node;
+        }else if(node->val>val){
+            TreeNode *lans=findnode(node->left,val);
+            if(lans) return lans;
+        
+        }else{
+            TreeNode *rans=findnode(node->right,val);
+            if(rans) return rans;
+        } 
+        return NULL;
+    }
+    TreeNode* searchBST(TreeNode* root, int val) {
+        return findnode(root,val);
+    }
+OPTIMAL -
+ITERATIVE APPROACH    TC=O(HEIGHT)  SC=O(1)
+TreeNode* searchBST(TreeNode* root, int val) {
+        while(root!=NULL && root->val!=val){
+            if(root->val>val) root=root->left;
+            else if(root->val<val) root=root->right;
+        }
+        return root;
+    }
