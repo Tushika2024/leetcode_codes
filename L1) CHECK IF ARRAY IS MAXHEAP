@@ -1,0 +1,11 @@
+  bool isMaxHeap(int arr[], int n) {
+        // Your code goes here
+        for(int i=0;i<n;i++){        OR TILL NON LEAF NODES<=N/2-1
+            int lc=2*i+1;
+            int rc=2*i+2;
+            if(lc<n && arr[lc]>arr[i]) return false;
+            if(rc<n && arr[rc]>arr[i]) return false;
+            if((lc>=n) || (rc>=n)) break;
+        }
+        return true;
+    }
