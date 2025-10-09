@@ -1,0 +1,60 @@
+BFA- TC=O(N2)
+int trap(vector<int>& height) {
+        int sum=0;
+        int lm=INT_MIN;
+        for(int i=0;i<height.size();i++){
+            lm=max(lm,height[i]);
+            int rm=INT_MIN;
+            for(int j=i;j<height.size();j++){
+                rm=max(rm,height[j]);
+            }
+            sum+=min(lm,rm)-height[i];
+        }
+        return sum;
+    }
+
+BETTER-  TC=O(3N) SC=O(2N)
+int trap(vector<int>& height) {
+        int sum=0;
+        vector<int>pmax(height.size(),0);
+        vector<int>smax(height.size(),0);
+        pmax[0]=height[0];
+        smax[height.size()-1]=height[height.size()-1];
+        for(int i=1;i<height.size();i++){
+            pmax[i]=max(pmax[i-1],height[i]);
+        }
+        for(int i=height.size()-2;i>=0;i--){
+            smax[i]=max(smax[i+1],height[i]);
+        }
+        for(int i=0;i<height.size();i++){
+            if(pmax[i]>height[i] && smax[i]>height[i]){
+                sum+=(min(pmax[i],smax[i])-height[i]);
+            }
+            
+        }
+        return sum;
+    }
+OPTIMAL-  TC=O(N) SC=O(1)
+    int trap(vector<int>& height) {
+        int sum=0;
+        int l=0;
+        int r=height.size()-1;
+        int lmax=0;
+        int rmax=0;
+        while(l<r){
+            lmax=max(lmax,height[l]);
+            rmax=max(rmax,height[r]);
+            if(lmax<=rmax){
+                if(height[l]<lmax){
+                    sum+=lmax-height[l];
+                }
+                l++; 
+            }else{
+                if(height[r]<rmax){
+                    sum+=rmax-height[r];
+                }
+                r--;
+            }
+        }
+        return sum;
+    }
