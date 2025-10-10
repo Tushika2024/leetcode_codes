@@ -1,0 +1,48 @@
+BFA- TC=O(N2) SC=O(1)
+ int sumSubarrayMins(vector<int>& arr) {
+        int sum=0;
+        for(int i=0;i<arr.size();i++){
+            int minel=INT_MAX;
+            for(int j=i;j<arr.size();j++){
+                if(arr[j]<minel) minel=arr[j];
+                sum+=minel;
+            }
+            minel=INT_MAX;
+        }
+        return sum%((int)1e9+7);
+    }
+
+OP TC=O(5N) SC=(2N)
+    void nse(vector<int>&nsevec,vector<int>&arr){
+        stack<int>st;
+        for(int i=arr.size()-1;i>=0;i--){
+            while(!st.empty() && arr[st.top()]>=arr[i]){
+                st.pop();
+            }
+            nsevec[i]=st.empty() ? arr.size():st.top();
+            st.push(i);
+        }
+    }
+    void psee(vector<int>&pseevec,vector<int>&arr){
+        stack<int>st2;
+        for(int i=0;i<arr.size();i++){
+            while(!st2.empty() && arr[st2.top()]>arr[i]){//edge case of equal to
+                st2.pop();
+            }
+            pseevec[i]=st2.empty()?-1:st2.top();
+            st2.push(i);
+        }
+    }
+    int sumSubarrayMins(vector<int>& arr) {
+        int mod=(int)1e9+7;
+        vector<int>nsevec(arr.size(),-1),pseevec(arr.size(),-1);
+        nse(nsevec,arr);
+        psee(pseevec,arr);
+        long long total=0;
+        for(int i=0;i<arr.size();i++){
+            int le=i-pseevec[i];
+            int re=nsevec[i]-i;
+            total=(total+((long long)le*re*arr[i])%mod)%mod;
+        }
+        return (int)total;
+    }
