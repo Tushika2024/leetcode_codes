@@ -1,0 +1,29 @@
+    string removeKdigits(string num, int k) {
+        int count=0;
+        stack<char>st;
+        st.push(num[0]);
+        for(int i=1;i<num.size();i++){                     TC=O(N+N+N+N+N)  SC=O(N)
+            while(count<k && (!st.empty()) &&
+                             (st.top()-'0'> num[i]-'0')){
+                st.pop();
+                count++;
+            }
+            st.push(num[i]);
+        }
+        while(count<k){
+            st.pop();
+            count++;
+        }
+        if(st.empty()) return "0";  // k==size
+        string ans;
+        while(!st.empty()){
+            ans.push_back(st.top()); //for avoiding memory limit excedded as we use+= =>O(string size)  push=>o(1)
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        int i=0;
+        while(i<ans.size() && ans[i]=='0') i++;
+        ans=ans.substr(i);
+        if(ans.empty()) return "0";  //stack contains all 0
+        return ans;
+    }
