@@ -1,0 +1,60 @@
+ BRUTE- BY N2
+BETTER- O(5N)  SC=O(2N)
+void pge(vector<int>&pseidx,vector<int>&heights){
+        stack<int>st;
+        for(int i=0;i<heights.size();i++){
+            while(!st.empty() && heights[st.top()]>=heights[i]){
+                st.pop();
+            }
+            pseidx[i]=st.empty()?-1:st.top();
+            st.push(i);
+        }
+    }
+    void nge(vector<int>&nseidx,vector<int>&heights){
+        stack<int>st;
+        for(int i=heights.size()-1;i>=0;i--){
+            while(!st.empty() && heights[st.top()]>=heights[i]){
+                st.pop();
+            }
+            nseidx[i]=st.empty()?heights.size():st.top();
+            st.push(i);
+        }
+    }
+    int largestRectangleArea(vector<int>& heights) {
+        vector<int>pseidx(heights.size(),0);
+        vector<int>nseidx(heights.size(),0);
+        pge(pseidx,heights);
+        nge(nseidx,heights);
+        long long maxarea=0;
+        for(int i=0;i<heights.size();i++){
+            int pgeno=i-pseidx[i];
+            int ngeno=nseidx[i]-i;
+            long long currarea=(pgeno+ngeno-1)*heights[i];
+            maxarea=max(maxarea,currarea);
+        }
+        return (int)maxarea;
+    }
+
+OPTIMAL-  TC=O(2N) SC=O(N)
+int largestRectangleArea(vector<int>& heights) {
+       stack<int>st;
+       int maxarea=0;
+       for(int i=0;i<heights.size();i++){
+            while(!st.empty() && heights[st.top()]>heights[i]){
+                int el=heights[st.top()];
+                st.pop();
+                int nsidx=i;
+                int psidx=st.empty()?-1:st.top();
+                maxarea=max(maxarea,(nsidx-psidx-1)*el);
+            }
+            st.push(i);
+       }
+       while(!st.empty()){
+                int el=heights[st.top()];
+                st.pop();
+                int nsidx=heights.size();
+                int psidx=st.empty()?-1:st.top();
+                maxarea=max(maxarea,(nsidx-psidx-1)*el);
+        }
+        return maxarea;
+    }
