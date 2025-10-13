@@ -1,0 +1,37 @@
+BFA- O(N2)
+int findDuplicate(vector<int>& nums) {
+        for(int i=1;i<=nums.size();i++){
+            int freq=0;
+            for(int j=0;j<nums.size();j++){
+                if(nums[j]==i) freq++;
+                if(freq>1) return i;
+            }
+        }
+        return -1;
+    }
+
+BETTER NLOGN
+  int findDuplicate(vector<int>& nums) {
+        map<int,int>mp;//el,freq;
+        for(int i=0;i<nums.size();i++){
+            mp[nums[i]]++;
+            if(mp[nums[i]]>1) return nums[i];
+        }
+        return -1;
+    }
+
+OPTIMAL TC=O(2N) SC=O(1)
+int findDuplicate(vector<int>& nums) {
+       int slow=nums[0];
+       int fast=nums[0];
+       do{
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+       }while(slow!=fast);
+       slow=nums[0];
+       while(slow!=fast){
+        slow=nums[slow];
+        fast=nums[fast];
+       }
+       return slow;
+    }
