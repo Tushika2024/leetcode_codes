@@ -1,0 +1,22 @@
+void helper(Node* root,vector<int>&path,vector<vector<int>>&fans){
+        if(root->left==NULL && root->right==NULL){              TC=O(N) SC=O(HEIGHT)
+            path.push_back(root->data);
+            fans.push_back(path);
+            path.pop_back();
+            return;
+        }
+        path.push_back(root->data);
+        if(root->left!=NULL) helper(root->left,path,fans);
+        if(root->right!=NULL) helper(root->right,path,fans);
+        path.pop_back();
+    }
+    vector<vector<int>> Paths(Node* root) {
+        vector<int>path;
+        vector<vector<int>>fans;
+        helper(root,path,fans);
+        return fans;
+        
+    }
+
+
+ROOT TO ANY NODE PATH ALSO
