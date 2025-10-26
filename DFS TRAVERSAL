@@ -1,0 +1,18 @@
+ void helper(int node,vector<vector<int>>&adj,vector<int>&ans,
+                vector<int>&visited){   TC=O(N)(ONE TIME HELPER FOR EACH NODE )+O(2E)(FOR INNER LOOP)  SC=O(N+N+N)
+        ans.push_back(node);                  MAX STACK FOR N VERTICES IF SKEWED GRAPH
+        for(auto it:adj[node]){
+            if(visited[it]==0){
+                visited[it]=1;
+                helper(it,adj,ans,visited);
+            }
+        }
+    }
+    vector<int> dfs(vector<vector<int>>& adj) {
+        // Code here
+        vector<int>visited(adj.size(),0);
+        vector<int>ans;
+        visited[0]=1;
+        helper(0,adj,ans,visited);
+        return ans;
+    }
