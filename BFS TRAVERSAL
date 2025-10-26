@@ -1,0 +1,20 @@
+vector<int> bfs(vector<vector<int>> &adj) {
+        // Code here
+        vector<int>visited(adj.size(),0);     TC=O(V)+O(2E)    SC=O(V)+O(V)+O(V) 
+        queue<int>q;
+        vector<int>ans;
+        q.push(0);
+        visited[0]=1;
+        while(!q.empty()){
+            int fel=q.front();
+            q.pop();
+            ans.push_back(fel);
+            for(int i=0;i<adj[fel].size();i++){
+                if(visited[adj[fel][i]]!=1){
+                    q.push(adj[fel][i]);
+                    visited[adj[fel][i]]=1;
+                }
+            }
+        }
+        return ans;
+    }
