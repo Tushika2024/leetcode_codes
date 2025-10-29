@@ -1,0 +1,51 @@
+BFA- double minMaxDist(vector<int> &stations, int K) {  TC=O(K*N)+O(N) SC=O(1)
+        // Code here
+        if(stations.size()==1) return 0;
+        vector<int>stationNo(stations.size()-1,0);
+        for(int i=1;i<=K;i++){
+            double maxlen=INT_MIN;
+            int maxidx=-1;
+            for(int i=0;i<stations.size()-1;i++){
+                double diff=(double)(stations[i+1]-stations[i]);
+                double sl=diff/(double)(stationNo[i]+1);
+                if(sl>maxlen){
+                    maxlen=sl;
+                    maxidx=i;
+                }
+            }
+            stationNo[maxidx]++;
+        }
+        double ans=INT_MIN;
+        for(int i=0;i<stations.size()-1;i++){
+            double diff=(double)(stations[i+1]-stations[i]);
+            double sl=diff/(double)(stationNo[i]+1);
+            ans=max(ans,sl);
+        }
+        return ans;
+    }
+
+BETTER - USING PQ FOR TRACKING MAX TC=O(NLOGN+KLOGN) SC=O(N)
+OP - TC=O(N+NLOG1E-6) SC=O(1)
+int stationNo(vector<int> &stations,double maxdis){
+        int ans=0;
+        for(int i=0;i<stations.size()-1;i++){
+            int no=(stations[i+1]-stations[i])/maxdis;
+            if((no*maxdis)==(stations[i+1]-stations[i])) no--;
+            ans+=no;
+        }
+        return ans;
+    }
+    double minMaxDist(vector<int> &stations, int K) {
+        // Code here
+        double low=0;
+        double high=0;
+        for(int i=0;i<stations.size()-1;i++){
+            high=max(high,(double)(stations[i+1]-stations[i]));
+        }
+        while(high-low>1e-6){
+            double mid=low+((high-low)/2.0);
+            if(stationNo(stations,mid)>K) low=mid;
+            else high=mid;
+        }
+        return high;
+    }
