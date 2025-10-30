@@ -1,0 +1,48 @@
+int orangesRotting(vector<vector<int>>& grid) { TC=O(N*M)+O(N*M)  ==SC
+        int tr=grid.size();
+        int tc=grid[0].size();
+        int freshor=0;
+        queue<pair<int,int>>q;
+        vector<vector<int>>visited(tr,vector<int>(tc,0));
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[0].size();j++){
+                if(grid[i][j]==2){
+                    q.push({i,j});
+                    visited[i][j]=2;
+                } 
+                if(grid[i][j]==1) freshor++;
+            }
+        }
+        int ans=0;
+        if(q.empty() && freshor) return -1;
+        else if((q.empty() && !freshor)|| (!freshor)) return 0;
+        int fr=0;
+        while(!q.empty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                int r=q.front().first;
+                int c=q.front().second;
+                q.pop();
+                if((c+1<tc)&&(grid[r][c+1]==1)&&(!visited[r][c+1])){
+                    q.push({r,c+1});
+                    visited[r][c+1]=2;
+                }
+                if((c-1>=0)&&(grid[r][c-1]==1)&&(!visited[r][c-1])){
+                    q.push({r,c-1});
+                    visited[r][c-1]=2;
+                }
+                if((r+1<tr)&&(grid[r+1][c]==1)&&(!visited[r+1][c])){
+                    q.push({r+1,c});
+                    visited[r+1][c]=2;
+                } 
+                if((r-1>=0)&&(grid[r-1][c]==1)&&(!visited[r-1][c])){
+                    q.push({r-1,c});
+                    visited[r-1][c]=2;
+                } 
+            }
+            fr+=q.size();
+            if(!q.empty()) ans++;
+        }
+        if(freshor!=fr) return -1;
+        return ans;
+    }
