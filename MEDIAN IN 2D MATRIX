@@ -1,0 +1,36 @@
+BRUTE- 2D TO 1D THEN SORT THEN MIDDLE
+OPTIMAL-                                                        TC=O(R)+OLOG(MAX-MIN==10POW9 * R * LOG C)
+int helper(vector<vector<int>>&mat,int x){
+        int r=mat.size();
+        int c=mat[0].size();
+        int ans=0;
+        for(int i=0;i<r;i++){
+            int st=0,end=c-1;
+            while(st<=end){
+                int mid=st+((end-st)/2);
+                if(mat[i][mid]>x) end=mid-1;
+                else st=mid+1;
+            }
+            // ans+=upper_bound(mat[i].begin(),mat[i].end(),x)-mat[i].begin();
+            ans+=st;
+        }
+        return ans;
+    }
+    int median(vector<vector<int>> &mat) {
+        // code here
+        int r=mat.size();
+        int c=mat[0].size();
+        int minel=INT_MAX,maxel=INT_MIN;
+        for(int i=0;i<r;i++){
+            minel=min(minel,mat[i][0]);
+            maxel=max(maxel,mat[i][c-1]);
+        }
+        int st=minel,end=maxel,reqel=c*r/2+1;
+        while(st<=end){
+            int mid=st+((end-st)/2);
+            if(helper(mat,mid)<reqel) st=mid+1;
+            else end=mid-1;
+        }
+        return st;
+        
+    }
