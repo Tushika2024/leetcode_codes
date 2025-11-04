@@ -1,0 +1,40 @@
+OPTIMAL TC=O(3N) SC=O(N FOR ANS)
+Node* additio(Node* head){
+        Node* temp=head;
+        while(temp!=NULL){
+            Node *nnode=new Node(temp->val);
+            nnode->next=temp->next;
+            temp->next=nnode;
+            temp=temp->next->next;
+        }
+        return head;
+    }
+    void randompointer(Node* head){
+        Node* temp=head;
+        while(temp!=NULL){
+            if(temp->random==NULL) temp->next->random=NULL;
+            else{
+                temp->next->random=temp->random->next;
+            }
+            temp=temp->next->next;
+        }
+    }
+    Node* deleting(Node* head){
+        Node *nhead=head->next;
+        Node *t1=head;
+        Node *t2=nhead;
+        while(t1!=NULL){
+            t1->next=t1->next->next;
+            if(t2->next!=NULL) t2->next=t2->next->next;
+            else t2->next=NULL;
+            t1=t1->next;
+            t2=t2->next;
+        }
+        return nhead;
+    }
+    Node* copyRandomList(Node* head) {
+        if(head==NULL) return head;
+        additio(head);
+        randompointer(head);
+        return deleting(head);
+    }
