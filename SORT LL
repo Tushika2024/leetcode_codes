@@ -1,0 +1,71 @@
+    ListNode* middle(ListNode *head){
+        ListNode *slow=head;
+        ListNode *fast=head->next->next;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+    ListNode *merge(ListNode *left,ListNode *right){
+        ListNode *tempa=left;
+        ListNode *tempb=right;
+        ListNode *dnode=new ListNode(-1);
+        ListNode *curr=dnode;
+        while(tempa!=NULL &&tempb!=NULL){
+            if(tempa->val<tempb->val){
+                curr->next=tempa;
+                curr=tempa;
+                tempa=tempa->next;
+            }else{
+                curr->next=tempb;
+                curr=tempb;
+                tempb=tempb->next;
+            }
+        }
+        while(tempa!=NULL){
+            curr->next=tempa;
+            curr=tempa;
+            tempa=tempa->next;
+        }
+        while(tempb!=NULL){
+            curr->next=tempb;
+            curr=tempb;
+            tempb=tempb->next;
+        }
+        return dnode->next;
+    }
+    ListNode* mergeSort(ListNode *st){
+            if(st==NULL || st->next==NULL) return st;
+            ListNode *mid=middle(st);
+            ListNode *lefthead=st;
+            ListNode *righthead=mid->next;
+            mid->next=NULL;
+            lefthead=mergeSort(lefthead);
+            righthead=mergeSort(righthead);
+            return merge(lefthead,righthead);
+    }
+        
+    ListNode* sortList(ListNode* head) {
+        return mergeSort(head);
+        return head;
+    }
+
+SC=O(N) 
+ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL) return head;
+        vector<int>values;
+        ListNode* temp=head;
+        while(temp!=NULL){
+            values.push_back(temp->val);
+            temp=temp->next;
+        }
+        sort(values.begin(),values.end());
+        temp=head;
+        int idx=0;
+        while(temp!=NULL){
+            temp->val=values[idx++];
+            temp=temp->next;
+        }
+        return head;
+    }
