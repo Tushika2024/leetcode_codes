@@ -1,5 +1,5 @@
 DFS-
-bool dfs(vector<vector<int>>&edges,int cv,
+bool dfs(vector<vector<int>>&edges,int cv, TC=O(V+2E)+O(V)+O(V)(FOR LIST) SC=O(2E)+O(V)+O(V)
             vector<int>&visited,int parent){
         visited[cv]=1;
         for(int i=0;i<edges[cv].size();i++){
@@ -21,6 +21,48 @@ bool dfs(vector<vector<int>>&edges,int cv,
         }
         return adj;
     }
+
+dfs- TC=O(V+2E)+O(V)  SC=O(V)+O(V)
+bool bfs(vector<vector<int>>&adj,vector<int>&visited,int st){
+        queue<pair<int,int>>q;
+        q.push({st,-1});
+        visited[st]=1;
+        while(!q.empty()){
+            int cel=q.front().first;
+            int p=q.front().second;
+            q.pop();
+            for(auto it:adj[cel]){
+                if(!visited[it]){
+                    visited[it]=1;
+                    q.push({it,cel});
+                }else if(visited[it] && it!=p) return true;
+            }
+        }
+        return false;
+    }
+    vector<vector<int>> adjlist(int V,vector<vector<int>>&edges){
+        vector<vector<int>>adj(V);
+        for(int i=0;i<edges.size();i++){
+            int first=edges[i][0];
+            int sec=edges[i][1];
+            adj[first].push_back(sec);
+            adj[sec].push_back(first);
+        }
+        return adj;
+    }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>>adj=adjlist(V,edges);
+        vector<int>visited(V,0);
+        for(int i=0;i<adj.size();i++){
+            if(!visited[i]){
+                visited[i]=1;
+                if (bfs(adj,visited,i)) return true;
+            }
+        }
+        return false;
+    }
+};
     bool isCycle(int V, vector<vector<int>>& edges) {
         // Code here
         vector<vector<int>>adj=adjlist(V,edges);
