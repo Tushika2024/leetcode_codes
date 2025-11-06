@@ -1,0 +1,15 @@
+ Node *reverse(Node *head) {
+        // code here
+        if(head==NULL || head->next==NULL) return head;
+        Node *prevmy=NULL;
+        Node *curr=head;
+        while(curr!=NULL){
+            Node *nextmy=curr->next;
+            curr->next=prevmy;
+            curr->prev=nextmy;
+            prevmy=curr;
+            curr=nextmy;
+        }
+        return prevmy;
+    }
+
