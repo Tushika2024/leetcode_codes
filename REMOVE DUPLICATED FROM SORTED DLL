@@ -1,0 +1,38 @@
+    Node* delnode(Node* head,Node* dnode){
+        if(head==NULL || head->next==NULL) return NULL;
+        if(dnode->prev==NULL){
+            Node *nhead=dnode->next;
+            nhead->prev=NULL;
+            dnode->next=NULL;
+            delete dnode;
+            return nhead;
+        }
+        else if(dnode->next==NULL){
+            dnode->prev->next=NULL;
+            dnode->prev=NULL;
+            delete dnode;
+            return head;
+        }else{
+            dnode->prev->next=dnode->next;
+            dnode->next->prev=dnode->prev;
+            dnode->next=NULL;
+            dnode->prev=NULL;
+            delete dnode;
+            return head;
+        }
+    }
+    Node *removeDuplicates(struct Node *head) {
+        if(head==NULL || head->next==NULL) return head;
+        // Your code here
+        Node* temp=head->next;
+        while(temp!=NULL){
+            if(temp->data == temp->prev->data){
+                Node* nextnode=temp->next;
+                head=delnode(head,temp);
+                temp=nextnode;
+            }else{
+                temp=temp->next;
+            }
+        }
+        return head;
+    }
