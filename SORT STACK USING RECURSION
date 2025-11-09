@@ -1,0 +1,24 @@
+void helper1(stack<int>&st){  TC=O(N2)  SC=O(N)
+        if(st.empty()) return;
+        int el=st.top();
+        st.pop();
+        helper1(st);
+        if(st.empty()) st.push(el);
+        else helper2(el,st);
+        return;
+    }
+    void helper2(int cel,stack<int>&st){
+        if(st.empty() || cel>st.top()){
+            st.push(cel);
+            return;
+        } 
+        int el=st.top();
+        st.pop();
+        helper2(cel,st);
+        st.push(el);
+        return;
+    }
+    void sortStack(stack<int> &st) {
+        // code here
+        helper1(st);
+    }
