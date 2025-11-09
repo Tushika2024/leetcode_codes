@@ -1,0 +1,24 @@
+long long exponen(long long powe,long long no){
+        long long ans=1;      TC=O(LOG EVENPOW)+o(LOG PRIMEPOW)==o(LOG N)
+        long long mod=1e9+7;
+        while(powe){
+            if(powe & 1) ans=(ans*no)%mod;
+            no=(no*no)%mod;
+            powe=powe>>1;
+        }
+        return ans;
+    }
+    int countGoodNumbers(long long n) {
+        long long mod=1e9+7;
+        long long primepow=0,evenpow=0;
+        if(n & 1){
+            evenpow=n/2+1;
+            primepow=n/2;
+        }else{
+            evenpow=n/2;
+            primepow=n/2;
+        }
+        long long res=exponen(evenpow,5)*exponen(primepow,4)%mod;
+        res%=mod;
+        return (int)res;
+    }
