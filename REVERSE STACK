@@ -1,0 +1,23 @@
+void helper1(stack<int>&st){
+        if(st.empty()) return;  TC=O(N2)  SC=O(N)
+        int topel=st.top();
+        st.pop();
+        helper1(st);
+        helper2(topel,st);
+    }
+    void helper2(int elin,stack<int>&st){
+        if(st.empty()){
+            st.push(elin);
+            return;
+        }
+        int cel=st.top();
+        st.pop();
+        helper2(elin,st);
+        st.push(cel);
+        return;
+    }
+    void reverseStack(stack<int> &st) {
+        // code here
+        helper1(st);
+        
+    }
