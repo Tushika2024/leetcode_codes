@@ -1,0 +1,14 @@
+int helper(int n, string str){    TC=O(2POWN) SC=O(N)
+        if(n<=0){
+            return 1;
+        }
+        int left=helper(n-1,str+'0');
+        if(str[str.size()-1]!='1' || (!str.size())){
+            int right=helper(n-1,str+'1');
+            return left+right;
+        }else return left;
+    }
+    int countStrings(int n) {
+        // code here
+        return helper(n,"");
+    }
