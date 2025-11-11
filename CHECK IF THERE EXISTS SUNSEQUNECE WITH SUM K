@@ -1,0 +1,17 @@
+bool check(vector<int>&arr,int sum,int s,int idx){  TC=O(2 POW N) SC=O(N)
+        if(idx==arr.size()){
+            if(s==sum){
+                return true;
+            }
+            return false;
+        }
+        s+=arr[idx];
+        if(check(arr,sum,s,idx+1)) return true;;
+        s-=arr[idx];
+        if(check(arr,sum,s,idx+1)) return true;
+        return false;
+    }
+    bool checkSubsequenceSum(int n, vector<int>& arr, int k) {
+        return check(arr,k,0,0);
+        
+    }
