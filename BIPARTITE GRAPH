@@ -1,0 +1,58 @@
+BFS-
+bool helper(vector<vector<int>>&graph,int st,
+                vector<pair<int,char>>&visited){  TC=O(V)+O(V+2E)  SC=O(2V)+O(2V)
+        queue<pair<int,int>>q;
+        char set='a';
+        q.push({st,-1});
+        visited[st]={1,set};
+        while(!q.empty()){
+            set=(set=='a')?'b':'a';
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                int cel=q.front().first;
+                int par=q.front().second;
+                q.pop();
+                for(auto it:graph[cel]){
+                    if(!(visited[it].first)){
+                        q.push({it,cel});
+                        visited[it]={1,set};
+                    }else if(visited[it].first && it!=par){
+                        if(visited[it].second!=set) return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<pair<int,char>>visited(graph.size(),{0,'0'});
+        for(int i=0;i<visited.size();i++){
+            if(!visited[i].first){
+                if(!helper(graph,i,visited)) return false;
+            }
+        }
+        return true;
+
+DFS-
+    bool helper(vector<vector<int>>&graph,int st,char set,
+                vector<pair<int,char>>&visited){
+            if(set=='-1') set='a';
+            else set=(set=='a')?'b':'a';
+            visited[st]={1,set};
+            for(auto it:graph[st]){
+                if(!(visited[it].first)){
+                    if(!helper(graph,it,set,visited)) return false;
+                }else if(visited[it].second==set) return false;
+            }
+             return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<pair<int,char>>visited(graph.size(),{0,'0'});
+        for(int i=0;i<visited.size();i++){
+            if(!visited[i].first){
+                if(!helper(graph,i,'-1',visited)) return false;
+            }
+        }
+        return true;
+    }
+    }
