@@ -1,0 +1,15 @@
+void helper(int tl,int n,int op,int c,string str,    TC=O(2 POWE 2*N)  SC=O(N)
+                    vector<string>&ans){
+        if(tl<=0){
+            ans.push_back(str);
+            return;
+        }
+        if(op+1<=n) helper(tl-1,n,op+1,c,str+'(',ans);
+        if(op>=c+1 && c+1<=n) helper(tl-1,n,op,c+1,str+')',ans);
+
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string>ans;
+        helper(2*n,n,0,0,"",ans);
+        return ans;
+    }
