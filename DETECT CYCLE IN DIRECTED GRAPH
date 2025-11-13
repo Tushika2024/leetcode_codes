@@ -1,0 +1,63 @@
+void adjlist(int V,vector<vector<int>>&edges,vector<vector<int>>&fans){
+        int r=edges.size();
+        for(int i=0;i<r;i++){
+            int fel=edges[i][0];
+            int sel=edges[i][1];
+            fans[fel].push_back(sel);
+        }
+        
+    }
+    bool helper(vector<vector<int>>&adj,int st,vector<int>visited){
+        if(visited[st]) return true;
+        visited[st]=1;
+        for(auto it:adj[st]){
+            if(helper(adj,it,visited)) return true;
+        }
+        return false;
+    }
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        vector<vector<int>>fans(V);
+        adjlist(V,edges,fans);
+        for(int i=0;i<fans.size();i++){
+            vector<int>visited(V,0);
+                if(helper(fans,i,visited)) return true;
+        }
+        return false;
+
+
+STRIVER-  TC=O(V+E)  SC=O(V)+O(2V)
+    void adjlist(int V,vector<vector<int>>&edges,vector<vector<int>>&fans){
+        int r=edges.size();
+        for(int i=0;i<r;i++){
+            int fel=edges[i][0];
+            int sel=edges[i][1];
+            fans[fel].push_back(sel);
+        }
+        
+    }
+    bool helper(vector<vector<int>>&adj,int st,vector<int>&visited,
+                vector<int>&pathvisited){
+        visited[st]=1;
+        pathvisited[st]=1;
+        for(auto it:adj[st]){
+            if(!visited[it]){
+                if(helper(adj,it,visited,pathvisited)) return true;
+            }else if(pathvisited[it]) return true;
+        }
+        pathvisited[st]=0;
+        return false;
+    }
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        vector<vector<int>>fans(V);
+        adjlist(V,edges,fans);
+        vector<int>visited(V,0);
+        vector<int>pathvisited(V,0);
+        for(int i=0;i<fans.size();i++){
+            if(!visited[i])
+                if(helper(fans,i,visited,pathvisited)) return true;
+        }
+        return false;
+        
+    }
+        
+    }
