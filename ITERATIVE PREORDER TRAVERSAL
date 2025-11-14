@@ -1,0 +1,14 @@
+vector<int> preorderTraversal(TreeNode* root) { TC=O(N) SC=O(N)
+        vector<int>ans;
+        if(root==NULL) return ans;
+        stack<TreeNode*>st;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* cnode=st.top();
+            st.pop();
+            ans.push_back(cnode->val);
+            if(cnode->right!=NULL) st.push(cnode->right);
+            if(cnode->left!=NULL) st.push(cnode->left);
+        }
+        return ans;
+    }
