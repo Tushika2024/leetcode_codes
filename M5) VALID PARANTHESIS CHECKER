@@ -1,0 +1,19 @@
+bool helper(string& s,int idx,int count){
+        if(count<0) return false;   TC=O(3 POW N)  SC=O(N)
+        if(idx>=s.size()){
+            return count==0?true:false;
+        }
+        if(s[idx]=='(') 
+            if(helper(s,idx+1,count+1)) return true;
+        else if(s[idx]==')') 
+            if(helper(s,idx+1,count-1)) return true;
+        else{
+            if(helper(s,idx+1,count+1)) return true;
+            if(helper(s,idx+1,count-1)) return true;
+            if(helper(s,idx+1,count)) return true;
+        }
+        return false;
+    }
+    bool checkValidString(string s) {
+        return helper(s,0,0);
+    }
