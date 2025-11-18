@@ -1,0 +1,78 @@
+void adjlist(vector<vector<int>>&edges,vector<vector<int>>&adj  TC=O(E)+O(V+E)+O(V)  SC=O(V)+O(V)   DFS BASED TOPO SORT
+            ,int V){
+        for(int i=0;i<edges.size();i++){
+            int fel=edges[i][0];
+            int sel=edges[i][1];
+            adj[fel].push_back(sel);
+        }
+    }
+    void helper(int node,vector<vector<int>>&adj,vector<int>&visited
+            ,vector<int>&ans){
+        for(auto it:adj[node]){
+            if(!visited[it])
+                helper(it,adj,visited,ans);
+        }
+        ans.push_back(node);
+        visited[node]=1;
+        return;
+    }
+    void reverse(vector<int>&ans){
+        int st=0;
+        int end=ans.size()-1;
+        while(st<=end){
+            swap(ans[st++],ans[end--]);
+        }
+    }
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>>adj(V);
+        adjlist(edges,adj,V);
+        vector<int>visited(V,0);
+        vector<int>ans;
+        for(int i=0;i<V;i++){
+            if(!visited[i])
+                helper(i,adj,visited,ans);
+        }
+        reverse(ans);
+        return ans;
+        
+    }
+};
+
+
+
+void adjlist(vector<vector<int>>&edges,vector<vector<int>>&adj  KAHNS ALGORITH BFS BASED INDEGREE TC=O(E)+O(E)+O(V)+(V+E)  SC=O(V)+O(V)
+            ,int V){
+        for(int i=0;i<edges.size();i++){
+            int fel=edges[i][0];
+            int sel=edges[i][1];
+            adj[fel].push_back(sel);
+        }
+    }
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>>adj(V);
+        adjlist(edges,adj,V);
+        vector<int>indegree(V,0);
+        vector<int>ans;
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            for(auto it:adj[i]){
+                indegree[it]++;
+            }
+        }
+        for(int i=0;i<indegree.size();i++){
+            if(!indegree[i]) q.push(i);
+        }
+        while(!q.empty()){
+            int fel=q.front();
+            q.pop();
+            ans.push_back(fel);
+            for(auto it :adj[fel]){
+                indegree[it]--;
+                if(!indegree[it]) q.push(it);
+            }
+        }
+        return ans;
+    }
+};
