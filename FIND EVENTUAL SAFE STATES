@@ -1,0 +1,131 @@
+MY APPROACH
+class Solution { TC=O(E)+O(V+E)+O(V)    SC=O(2V)+O(V)=O(V)  DFS 
+public:
+    bool helper(vector<vector<int>>&graph,
+            vector<pair<int,bool>>&visited,vector<int>&pathvisited,
+            int node){
+        if(pathvisited[node]) return false;
+        if(visited[node].first && (!visited[node].second)) 
+                return false;
+        if(visited[node].first && visited[node].second) return true;
+        pathvisited[node]=1;
+        for(auto it :graph[node]){
+            if(!helper(graph,visited,pathvisited,it)){
+                visited[node].first=1;
+                visited[node].second=false;
+                pathvisited[node]=0;
+                return false;
+            }
+        }
+        visited[node].first=1;
+        visited[node].second=true;
+        pathvisited[node]=0;
+        return true;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<pair<int,bool>>visited(graph.size(),{0,false});
+        vector<int>pathvisited(graph.size(),0);
+        bool issafe=false;
+        for(int i=0;i<graph.size();i++){
+            if(!graph[i].size()){
+                visited[i].first=1;
+                visited[i].second=true;
+                issafe=true;
+            }
+        }
+        if(!issafe) return {};          
+        for(int i=0;i<graph.size();i++){
+            if(visited[i].first==0){
+                helper(graph,visited,pathvisited,i);
+            }
+        }
+        vector<int>ans;
+        for(int i=0;i<graph.size();i++){
+            if(visited[i].second) ans.push_back(i);
+        }
+        return ans;
+    }
+
+
+BFS-TOPO SORT
+class Solution {
+public: 
+    void reverse(vector<vector<int>>&graph,
+            vector<vector<int>>&ngraph){
+        for(int i=0;i<graph.size();i++){
+            for(auto it :graph[i]){
+                ngraph[it].push_back(i);
+            }
+        }
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<vector<int>>ngraph(n);
+        reverse(graph,ngraph);
+        vector<int>indegree(n,0);
+        vector<int>ans;
+        queue<int>q;
+        for(int i=0;i<n;i++){
+            for(auto it :ngraph[i]){
+                indegree[it]++;
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(!indegree[i]) q.push(i);
+        }
+        while(!q.empty()){
+            int fel=q.front();
+            q.pop();
+            ans.push_back(fel);
+            for(auto it :ngraph[fel]){
+                indegree[it]--;
+                if(!indegree[it]) q.push(it);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
+
+DFS- CYCLE DETECTION
+class Solution {
+public: 
+    bool detectcycle(int node,vector<int>&visited,
+        vector<int>&pathvisited,vector<int>&issafe,
+        vector<vector<int>>& graph){
+            visited[node]=1;
+            pathvisited[node]=1;
+            for(auto it :graph[node]){
+                if(!visited[it]){
+                    if(detectcycle(it,visited,pathvisited,issafe,
+                        graph)){
+                        issafe[node]=0;
+                        return true;
+                    }
+                }else if(pathvisited[it]){
+                    issafe[node]=0;
+                    return true;
+                }
+            }
+            issafe[node]=1;
+            pathvisited[node]=0;
+            return false;
+        }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int>visited(graph.size(),0);
+        vector<int>pathvisited(graph.size(),0);
+        vector<int>issafe(graph.size(),0);
+        vector<int>ans;
+        for(int i=0;i<graph.size();i++){
+            if(!visited[i]){
+                detectcycle(i,visited,pathvisited,issafe,graph);
+            }
+        }
+        for(int i=0;i<issafe.size();i++){
+            if(issafe[i]) ans.push_back(i);
+        }
+        return ans;
+    }
+};
+
+};
