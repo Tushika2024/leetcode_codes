@@ -1,0 +1,63 @@
+class Solution{
+    public:
+        vector<int>maxheap;
+        void heapifyUp(vector<int>&maxheap,int idx){
+            int pidx=(idx-1)/2;
+            if(pidx>=0 && maxheap[pidx]<maxheap[idx]){
+                swap(maxheap[pidx],maxheap[idx]);
+                heapifyUp(maxheap,pidx);
+            }
+        }
+        void heapifyDown(vector<int>&maxheap,int idx){
+            int gidx=idx;
+            int lc=2*idx+1;
+            int rc=2*idx+2;
+            if(lc<maxheap.size() && maxheap[lc]>maxheap[gidx]){
+                gidx=lc;
+            }
+            if(rc<maxheap.size() && maxheap[rc]>maxheap[gidx]){
+                gidx=rc;
+            }
+            if(gidx!=idx){
+                swap(maxheap[idx],maxheap[gidx]);
+                heapifyDown(maxheap,gidx);
+            }
+        }
+        void initializeHeap(){
+
+        }
+
+        void insert(int key){
+           maxheap.push_back(key);
+           heapifyUp(maxheap,maxheap.size()-1); 
+           return ;
+        }
+
+        void changeKey(int index, int new_val){
+            if(maxheap[index]<new_val){
+                maxheap[index]=new_val;
+                heapifyUp(maxheap,index);
+            }else if(maxheap[index]>new_val){
+                maxheap[index]=new_val;
+                heapifyDown(maxheap,index);
+            }
+        }
+
+        void extractMax(){
+            swap(maxheap[0],maxheap[maxheap.size()-1]);
+            maxheap.pop_back();
+            heapifyDown(maxheap,0);
+        }
+
+        bool isEmpty(){
+            return maxheap.size()==0;
+        }
+
+        int getMax(){
+            return maxheap[0];
+        }
+
+        int heapSize(){
+            return maxheap.size();
+        }
+};
