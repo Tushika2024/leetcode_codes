@@ -1,0 +1,59 @@
+vector<int>minheap;
+        void heapifyUp(vector<int>&minheap,int idx){
+            int pidx=(idx-1)/2;
+            if(pidx>=0 && minheap[pidx]>minheap[idx]){
+                swap(minheap[pidx],minheap[idx]);
+                heapifyUp(minheap,pidx);
+            }
+        }
+        void heapifyDown(vector<int>&minheap,int idx){
+            int sidx=idx;
+            int lc=2*idx+1;
+            int rc=2*idx+2;
+            if(lc<minheap.size() && minheap[lc]<minheap[sidx]){
+                sidx=lc;
+            }
+            if(rc<minheap.size() &&  minheap[rc]<minheap[sidx]){
+                sidx=rc;
+            }
+            if(sidx!=idx){
+                swap(minheap[sidx],minheap[idx]);
+                heapifyDown(minheap,sidx);
+            }
+        }
+        void initializeHeap(){
+
+        }
+
+        void insert(int key){
+            minheap.push_back(key);
+            heapifyUp(minheap,minheap.size()-1);
+        }
+
+        void changeKey(int index, int new_val){
+            if(minheap[index]<new_val){
+                minheap[index]=new_val;
+                heapifyDown(minheap,index);
+            }else if(minheap[index]>new_val){
+                minheap[index]=new_val;
+                heapifyUp(minheap,index);
+            }
+        }
+
+        void extractMin(){
+            swap(minheap[0],minheap[minheap.size()-1]);
+            minheap.pop_back();
+            heapifyDown(minheap,0);
+        }
+
+        bool isEmpty(){
+            return minheap.size()==0;
+        }
+
+        int getMin(){
+            return minheap[0];
+        }
+
+        int heapSize(){
+            return minheap.size();
+        }
