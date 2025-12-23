@@ -1,0 +1,34 @@
+class Solution {    TC=O(LOGN=HEIGHT)(IN ONE DIRECTION ONLY)  LOGN AS CBT    SC=O(LOGN)  FOR HEIGHT ONLY 
+public:
+    void heapifyUp(vector<int>&nums,int idx){
+        int pidx=(idx-1)/2;
+        if(pidx>=0 && nums[pidx]>nums[idx]){
+            swap(nums[pidx],nums[idx]);
+            heapifyUp(nums,pidx);
+        }
+    }
+    void heapifyDown(vector<int>&nums,int idx){
+        int sidx=idx;
+        int lc=2*idx+1;
+        int rc=2*idx+2;
+        if(lc<nums.size() && nums[lc]<nums[sidx]){
+            sidx=lc;
+        }
+        if(rc<nums.size() && nums[rc]<nums[sidx]){
+            sidx=rc;
+        }
+        if(sidx!=idx){
+            swap(nums[idx],nums[sidx]);
+            heapifyDown(nums,sidx);
+        }
+    }
+    void heapify(vector<int> &nums, int ind, int val) {
+        if(nums[ind]>val){
+            nums[ind]=val;
+            heapifyUp(nums,ind);
+        }else if(nums[ind]<val){
+            nums[ind]=val;
+            heapifyDown(nums,ind);
+        }
+    }
+};
