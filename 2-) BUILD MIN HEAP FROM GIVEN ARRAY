@@ -1,0 +1,24 @@
+class Solution {
+public:                                                        TC= O(N)  NOT O(N/2)*(LOGN) AS NOT EACH NODDE TAKING LOGN LIKE LOWER LEVEL NODES  
+    void heapifyDown(vector<int>&nums,int idx){                SC=O(LOGN)  RECURSIVE STACK
+        int sidx=idx;
+        int lc=2*idx+1;
+        int rc=2*idx+2;
+        if(lc<nums.size() && nums[lc]<nums[sidx]){
+            sidx=lc;
+        }
+        if(rc<nums.size() && nums[rc]<nums[sidx]){
+            sidx=rc;
+        }
+        if(sidx!=idx){
+            swap(nums[sidx],nums[idx]);
+            heapifyDown(nums,sidx);
+        }
+    }
+    void buildMinHeap(vector<int> &nums) {
+        int n=nums.size();
+        for(int i=(n/2-1);i>=0;i--){
+            heapifyDown(nums,i);
+        }
+    }
+};
