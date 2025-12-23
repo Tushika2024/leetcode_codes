@@ -1,0 +1,42 @@
+OPTIMAL-  TC=O(NLOGN =>NOT   N ) AS LOWER LEVEL NODES NOT TAKE LOGN TIME TAKE VERY LESS TIME   SC=O(LOGN)
+class Solution {
+public:
+    void heapifyDown(vector<int>&nums,int idx){
+        int gidx=idx;
+        int lc=2*idx+1;
+        int rc=2*idx+2;
+        if(lc<nums.size() && nums[lc]>nums[gidx]){
+            gidx=lc;
+        }
+        if(rc<nums.size() && nums[rc]>nums[gidx]){
+            gidx=rc;
+        }
+        if(gidx!=idx){
+            swap(nums[idx],nums[gidx]);
+            heapifyDown(nums,gidx);
+        }
+    }
+    vector<int> minToMaxHeap(vector<int> nums) {
+        int n=nums.size();
+        for(int i=(n/2)-1;i>=0;i--){
+            heapifyDown(nums,i);
+        }
+        return nums;
+    }
+};
+MY APPROACH-
+void heapifyUp(vector<int>&ans,int idx){    TC=O(NLOGN)  SC=O(N)+O(LOGN)
+        int pidx=(idx-1)/2;
+        if(pidx>=0 && ans[pidx]<ans[idx]){
+            swap(ans[pidx],ans[idx]);
+            heapifyUp(ans,pidx);
+        }
+    }
+    vector<int> minToMaxHeap(vector<int> nums) {
+        vector<int>ans;
+        for(int i=0;i<nums.size();i++){
+            ans.push_back(nums[i]);
+            heapifyUp(ans,i);
+        }
+        return ans;
+    }
