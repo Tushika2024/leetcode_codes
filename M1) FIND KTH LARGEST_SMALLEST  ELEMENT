@@ -15,6 +15,37 @@ int findKthLargest(vector<int>& nums, int k) {
         }
         return pq.top();
     }
+OP-TC=O(N+KLOGN) SC=O(LOGN)
+class Solution {
+public:
+    void heapifyDown(vector<int>&nums,int last,int idx){
+        int gidx=idx;
+        int lc=2*idx+1;
+        int rc=2*idx+2;
+        if(lc<=last && nums[lc]>nums[gidx]) gidx=lc;
+        if(rc<=last && nums[rc]>nums[gidx]) gidx=rc;
+        if(gidx!=idx){
+            swap(nums[idx],nums[gidx]);
+            heapifyDown(nums,last,gidx);
+        }
+    }
+    void buildmaxheap(vector<int>&nums){
+        int n=nums.size();
+        for(int i=(n/2)-1;i>=0;i--){
+            heapifyDown(nums,n-1,i);
+        }
+    }
+    int kthLargestElement(vector<int>& nums, int k) {
+        buildmaxheap(nums);
+        int last=nums.size()-1;
+        for(int i=0;i<k;i++){
+            swap(nums[0],nums[last]);
+            last--;
+            heapifyDown(nums,last,0);
+        }
+        return nums[last+1];
+    }
+};
 OPI- USING MIN HEAP  O(NLOGK)
 int findKthLargest(vector<int>& nums, int k) {
         priority_queue<int,vector<int>,greater<int>>pq;
