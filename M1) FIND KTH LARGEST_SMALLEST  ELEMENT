@@ -1,7 +1,7 @@
-BFA- O(NLOGN)
+BFA- TC=O(NLOGN)  SC=O(1)
 int findKthLargest(vector<int>& nums, int k) {
-        sort(nums.begin(),nums.end());
-        return nums[nums.size()-k];
+        sort(nums.begin(),nums.end(), greater<int>());
+        return nums[k-1];
     }
 
 BFA- USING MAXHEAP ONLY     O(NLOGN + K-1)
@@ -46,18 +46,50 @@ public:
         return nums[last+1];
     }
 };
-OPI- USING MIN HEAP  O(NLOGK)
-int findKthLargest(vector<int>& nums, int k) {
+OPI- USING MIN HEAP  O(NLOGK)    SC=O(K)             IF K=N THEN OUR TC AND SC LEADS TO NLOGN AND N
+ int kthLargestElement(vector<int>& nums, int k) {
         priority_queue<int,vector<int>,greater<int>>pq;
-        for(int i=0;i<nums.size();i++){
-            if(pq.size()>k){
-                pq.pop();
-            }
+        for(int i=0;i<k;i++){      KLOGK
             pq.push(nums[i]);
         }
-        if(pq.size()>k){
-            pq.pop();
+        for(int i=k;i<nums.size();i++){
+            if(nums[i]>pq.top()){
+                pq.pop();     N-KLOGK
+                pq.push(nums[i]);
+            }
         }
         return pq.top();
     }
 OPII- QUICK Select algo AVG CASE = O(N)  WORST CASE =O(N2)  (CONSIDERED BEST SOLUTIO FOR THIS PRBLM)
+    int randomPivot(vector<int>&nums,int left,int right){
+        int range=right-left+1;
+        return (rand()%range)+left;
+    }
+    int arrange(vector<int>&nums,int pindx,int left,int right){
+        swap(nums[left],nums[pindx]);
+        int idx=left+1;
+        for(int j=left+1;j<=right;j++){
+            if(nums[j]>nums[left]) swap(nums[idx++],nums[j]);
+        }
+        swap(nums[left],nums[idx-1]);
+        return idx-1;
+    }
+    int kthLargestElement(vector<int>& nums, int k) {
+        int l=0,r=nums.size()-1;
+        while(true){
+            int pindx=randomPivot(nums,l,r);
+            int pivotindex=arrange(nums,pindx,l,r);
+            if(pivotindex==k-1) return nums[pivotindex];
+            else if(k-1<pivotindex) r=pivotindex-1;
+            else l=pivotindex+1;
+        }
+        return -1;
+
+n + n/2 + n/4 + n/8 + ...
+= 2n
+= O(n)
+n + (n-1) + (n-2) + ... + 1
+= n(n+1)/2
+= O(n²)
+
+    }
