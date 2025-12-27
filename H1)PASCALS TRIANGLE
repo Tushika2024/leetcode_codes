@@ -24,8 +24,54 @@ vector<vector<int>> generate(int numRows) {  TC=O(N2)
 
 STRIVER-
 1- FOR SINGLE ELEMENT OF PASCALS TRIANGLE USE nCr CONCEPT;         TC=O(N)
+int findncr(int cr,int cc){                                           O(MIN(CC,CR-CC)  SC=O(1)
+        if(cc==0 || cc==cr) return 1;
+        long long ans=1;
+        if(cc>(cr-cc)) cc=cr-cc;
+        for(int i=0;i<cc;i++){
+            ans=(ans*(cr-i))/(i+1);
+        }
+        return ans;
+    }
+    int pascalTriangleI(int r, int c) {
+        int cr=r-1;
+        int cc=c-1;
+        return (int)findncr(cr,cc);
+    }
+
 2- FOR SINGLE ROW BRUTE-nCr;                                       TC=O(N2)
-                  BETTER- PATTERN FINDING                          TC=O(N)
+int findncr(int cr,int cc){                                      O(N*(N/2))  SC=O(1)
+    if(cc>(cr-cc)) cc=cr-cc;
+    long long ans=1;
+    for(int i=0;i<cc;i++){
+        ans=(ans*(cr-i))/(i+1);
+    }
+    return (int) ans;
+}
+    vector<int> pascalTriangleII(int r) {N=R
+        int cr=r-1;
+        vector<int>ans;
+        ans.push_back(1);
+        for(int i=1;i<cr;i++){          
+            ans.push_back(findncr(cr,i));
+        }
+        if(cr!=0) ans.push_back(1);
+        return ans;
+    }
+
+  BETTER- PATTERN FINDING                          TC=O(N/r-1)
+vector<int> pascalTriangleII(int r) {
+    int cr=r-1;
+    vector<int>ans;
+    ans.push_back(1);
+    if(!cr) return ans;
+    long long pel=1;
+    for(int i=1;i<=cr;i++){
+        pel=(pel*(cr-i+1))/(i);
+        ans.push_back((int)pel);
+    }
+    return ans;
+}
 3- FOR WHOLE PASCAL TRIANGLE TILL NROWS  USE 2 BETTER              TC=O(N2)
 vector<int>generateRows(int row){
         vector<int>ans;
