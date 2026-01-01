@@ -1,0 +1,78 @@
+MY CODE-  TC=O(M)+O(V+2M)+O(V)    SC=O(2M)+O(2V)+O(V)+O(V)   LIST,VISITED,queue,ANS
+class Solution {
+  public:
+  void createList(vector<vector<int>>&edges,int m,
+          vector<vector<int>>&adjlist){
+    for(int i=0;i<m;i++){
+      adjlist[edges[i][0]].push_back(edges[i][1]);
+      adjlist[edges[i][1]].push_back(edges[i][0]);
+    }
+  }
+  void pathFinder(vector<vector<int>>&adjlist,
+      vector<pair<int,int>>&visited,int N){
+    queue<int>q;
+    q.push(0);
+    visited[0]={1,0};
+    while(!q.empty()){
+      int cel=q.front();
+      q.pop();
+      for(auto it :adjlist[cel]){
+        if(!(visited[it].first)){
+          visited[it]={1,visited[cel].second+1};
+          q.push(it);
+        }
+      }
+    }
+  }
+  vector<int> shortestPath(vector<vector<int>>& edges, int N,int M){
+    vector<vector<int>>adjlist(N);
+    vector<pair<int,int>>visited(N,{0,-1});
+    vector<int>ans;
+    createList(edges,M,adjlist);
+    pathFinder(adjlist,visited,N);
+    for(int i=0;i<N;i++){
+      ans.push_back(visited[i].second);
+    }
+    return ans;
+  }
+};
+
+OPTIMAL STRIVER ONE -  TC=SAME SC=O(2E)+O(V)+O(V)+O(V)
+class Solution {
+  public:
+  void createList(vector<vector<int>>&edges,int m,
+          vector<vector<int>>&adjlist){
+    for(int i=0;i<m;i++){
+      adjlist[edges[i][0]].push_back(edges[i][1]);
+      adjlist[edges[i][1]].push_back(edges[i][0]);
+    }
+  }
+  void pathFinder(vector<vector<int>>&adjlist,vector<int>&distance,int N){
+    queue<int>q;
+    q.push(0);
+    distance[0]=0;
+    while(!q.empty()){
+      int cel=q.front();
+      q.pop();
+      for(auto it :adjlist[cel]){
+        if((distance[cel]+1)<(distance[it])){
+          distance[it]=distance[cel]+1;
+          q.push(it);
+        }
+      }
+    }
+  }
+  vector<int> shortestPath(vector<vector<int>>& edges, int N,int M){
+    vector<vector<int>>adjlist(N);
+    vector<int>distance(N,INT_MAX);
+    vector<int>ans;
+    createList(edges,M,adjlist);
+    pathFinder(adjlist,distance,N);
+    for(int i=0;i<N;i++){
+      if(distance[i]!=INT_MAX) ans.push_back(distance[i]);
+      else ans.push_back(-1);
+    }
+    return ans;
+  }
+};
+
