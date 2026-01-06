@@ -77,3 +77,57 @@ public:
 };
 };
 };
+
+
+FRO SHORTEST PATH-TC=O(ELOGV+V)
+#define P pair<int,int>
+class Solution{
+public:
+    void adjlistformation( vector<vector<int>> &edges,int m,
+                vector<vector<pair<int,int>>>&adjlist){
+            for(int i=0;i<m;i++){
+                int fel=edges[i][0];
+                int sel=edges[i][1];
+                int weight=edges[i][2];
+                adjlist[fel].push_back({sel,weight});
+                adjlist[sel].push_back({fel,weight});
+            }
+    }
+    vector<int> shortestPath(int n, int m, vector<vector<int>> &edges) {
+        vector<vector<pair<int,int>>>adjlist(n+1);
+        adjlistformation(edges,m,adjlist);
+        vector<int>parent(n+1,-1);
+        vector<int>distance(n+1,1e9);
+        priority_queue<P,vector<P>,greater<P>>pq;
+        pq.push({0,1});//dis,node;
+        distance[1]=0;
+        parent[1]=-1;
+        while(!pq.empty()){
+            int cdis=pq.top().first;
+            int cnode=pq.top().second;
+            pq.pop();
+            for(auto it :adjlist[cnode]){
+                int adjnode=it.first;
+                int adjdis=it.second;
+                if(adjdis+cdis<distance[adjnode]){
+                    parent[adjnode]=cnode;
+                    distance[adjnode]=adjdis+cdis;
+                    pq.push({distance[adjnode],adjnode});
+                }
+            }
+        }
+        vector<int>fans;
+        if(parent[n]==-1){
+            return {-1};
+        }
+        fans.push_back(n);
+        int i=n;
+        while(parent[i]!=-1){
+            fans.push_back(parent[i]);
+            i=parent[i];
+        }
+        fans.push_back(distance[n]);
+        reverse(fans.begin(),fans.end());
+        return fans;
+    }
+};
