@@ -1,0 +1,35 @@
+#define P pair<int,pair<int,int>>//USE QUEUE AS DIS INCREASING IS CONSTANT AND USING PRIORITY QUEUE DOSENT ADD MUCH 
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int r=grid.size();
+        int c=grid[0].size();
+        vector<vector<int>>dis(r,vector<int>(c,1e9));
+        queue<P>pq;
+        vector<int> delrow={-1,0,+1,0,+1,-1,+1,-1};
+        vector<int> delcol={0,+1,0,-1,+1,-1,-1,+1};
+        if(!grid[0][0]){
+            pq.push({1,{0,0}});
+            dis[0][0]=1;
+            if(grid.size()==1) return 1;
+        } 
+        
+        while(!pq.empty()){
+            int cdis=pq.front().first;
+            int rno=pq.front().second.first;
+            int cno=pq.front().second.second;
+            pq.pop();
+            for(int i=0;i<8;i++){
+                int row=rno+delrow[i];
+                int col=cno+delcol[i];
+                if(row>=0 && row<r && col>=0 && col<c && 
+                !(grid[row][col]) && cdis+1<dis[row][col]){
+                    dis[row][col]=1+cdis;
+                    if(row==r-1 && col==c-1) return 1+cdis;
+                    pq.push({1+cdis,{row,col}});
+                }
+            }
+        }
+        return -1;
+    }
+};
