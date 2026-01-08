@@ -1,0 +1,40 @@
+#define P pair<int,pair<int,int>>
+class Solution //{TC=O(n*K + E*K) SC=O(E+N+N*K) 
+public:
+    void graphformation(vector<vector<pair<int,int>>>&adjlist,
+    vector<vector<int>>&flights,int n){
+        for(int i=0;i<flights.size();i++){
+            int st=flights[i][0];
+            int end=flights[i][1];
+            int price=flights[i][2];
+            adjlist[st].push_back({end,price});
+        }
+    }
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>>adjlist(n);
+        graphformation(adjlist,flights,n);
+        queue<P>pq;
+        vector<int>distance(n,1e9);
+        pq.push({0,{src,0}});//dis,node,stops;
+        distance[src]=0;
+        while((!pq.empty()) && pq.front().second.second<=k){ 
+            int size=pq.size();
+            for(int i=0;i<size;i++){
+                int cdis=pq.front().first;
+                int cnode=pq.front().second.first;
+                int cstop=pq.front().second.second;
+                pq.pop();
+                for(auto it : adjlist[cnode]){
+                int adjdis=it.second;
+                int adjnode=it.first;
+                if(adjdis+cdis<distance[adjnode]){
+                        distance[adjnode]=adjdis+cdis;
+                        pq.push({distance[adjnode],{adjnode,cstop+1}});
+                    }
+                }
+            }
+            
+        }
+        return distance[dst]==1e9?-1:distance[dst];
+    }
+};
