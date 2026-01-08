@@ -1,0 +1,37 @@
+#define P pair<int,int>
+class Solution {
+public:
+    void graphformation(vector<vector<pair<int,int>>>&adjlist,
+        vector<vector<int>>& times,int n){
+        for(int i=0;i<times.size();i++){
+            adjlist[times[i][0]].push_back({times[i][1],times[i][2]});
+        }
+    }
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>>adjlist(n+1);
+        graphformation(adjlist,times,n);
+        vector<int>distance(n+1,1e9);
+        priority_queue<P,vector<P>,greater<P>>pq;
+        pq.push({0,k});
+        distance[k]=0;
+        while(!pq.empty()){
+            int cdis=pq.top().first;
+            int cnode=pq.top().second;
+            pq.pop();
+            for(auto it : adjlist[cnode]){
+                int adjnode=it.first;
+                int adjdis=it.second;
+                if(cdis+adjdis<distance[adjnode]){
+                    distance[adjnode]=cdis+adjdis;
+                    pq.push({distance[adjnode],adjnode});
+                }
+            }
+        }
+        int fans=0;
+        for(int i=1;i<distance.size();i++){
+            if(distance[i]==1e9) return -1;
+            fans=max(fans,distance[i]);
+        }
+        return fans;
+    }
+};
