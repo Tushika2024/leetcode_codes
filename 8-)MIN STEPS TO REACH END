@@ -1,0 +1,27 @@
+#define P pair<int,int>
+class Solution{
+public:
+    int minimumMultiplications(vector<int> &arr,
+                               int start, int end) {
+    queue<P>q;//TC=O(100000*ARRAY SIZE) SC=O(1E5)+O(1E5)
+    q.push({0,start});
+    vector<int>steps(100000,1e9);
+    steps[start]=0;
+    while(!q.empty()){
+        int csteps=q.front().first;
+        int cres=q.front().second;
+        q.pop();
+        if(cres==end) return csteps;
+        for(int i=0;i<arr.size();i++){
+            int newmul=(arr[i]*cres)%100000;
+            if(csteps+1<steps[newmul]){
+                    steps[newmul]=csteps+1;
+                    q.push({csteps+1,newmul});
+                }
+            }
+        }
+    
+     return -1;   
+   
+    }
+};
