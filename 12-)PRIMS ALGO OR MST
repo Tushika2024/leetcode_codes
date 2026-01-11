@@ -1,0 +1,26 @@
+#define P pair<int,int>
+class Solution{//TC=O(2ELOGE)  SC=O(E)+O(V)
+    public:
+    int spanningTree(int V, vector<vector<int>> adj[]) {
+        priority_queue<P,vector<P>,greater<P>>pq;
+        vector<int>visited(V,0);
+        pq.push({0,0});
+        int minwt=0;
+        while(!pq.empty()){//O(E)
+            int cwt=pq.top().first;
+            int cnode=pq.top().second;
+            pq.pop();//O(logE)
+            if(!visited[cnode]){
+                visited[cnode]=1;
+                minwt+=cwt;
+                for(auto it :adj[cnode]){ //O(ElogE)
+                    int adjnode=it[0];
+                    int adjwt=it[1];
+                    if(!visited[adjnode])
+                        pq.push({adjwt,adjnode});
+                }
+            }
+        }
+        return minwt;
+    }
+};
