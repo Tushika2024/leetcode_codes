@@ -1,0 +1,22 @@
+BFA- FIND MAX NO OF INTERSECTIONS OF A TRAIN WITH OTHER TRAIN
+class Solution{
+    public:
+    int findPlatform(vector<int>& Arrival, vector<int>& Departure){
+        //your code goes here TC=O(2NLOGN + 2N) SC=O(1)
+        sort(Arrival.begin(),Arrival.end());
+        sort(Departure.begin(),Departure.end());
+        int a=0,d=0,count=0,maxcount=0;
+        while(a<Arrival.size()){
+            if(Arrival[a]<=Departure[d]){
+                count++;
+                a++;
+            }else{
+                count--;
+                d++;
+            }
+            
+            maxcount=max(maxcount,count);
+        }
+        return maxcount;
+    }
+};
