@@ -1,0 +1,33 @@
+class Solution{  //TC=O(N+NLOGN+N*MAXDEADLINE) SC=O(MAXDEADLINE) INNER LOOP OPTIMISED USING DSU
+  public:
+  static bool comp(vector<int>v1,vector<int>v2){
+    return v1[2]>v2[2];
+  }  
+    vector<int> JobScheduling(vector<vector<int>>& Jobs) { 
+        int maxslot=0;
+        for(int i=0;i<Jobs.size();i++){
+          maxslot=max(maxslot,Jobs[i][1]);
+        }
+        vector<int>mp(maxslot+1,0);
+        sort(Jobs.begin(),Jobs.end(),comp);
+        int maxprofit=0,totaljobs=0;
+        for(int i=0;i<Jobs.size();i++){
+          int cdeadline=Jobs[i][1];
+          if(!mp[cdeadline]){
+            mp[cdeadline]=1;
+            maxprofit+=Jobs[i][2];
+            totaljobs++;
+          }else{
+            for(int j=cdeadline-1;j>0;j--){
+              if(!mp[j]){
+                mp[j]=1;
+                maxprofit+=Jobs[i][2];
+                totaljobs++;
+                break;
+              }
+            }
+          }
+        }
+        return {totaljobs,maxprofit};
+    } 
+};
