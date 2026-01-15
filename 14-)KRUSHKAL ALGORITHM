@@ -1,0 +1,53 @@
+class DisjointSet{
+    vector<int>size;
+    vector<int>parent;
+    public:
+        DisjointSet(int v){
+            size.resize(v,0);
+            parent.resize(v);
+            for(int i=0;i<v;i++){
+                parent[i]=i;
+            }
+        }
+        int findParent(int node){
+            if(parent[node]==node) return node;
+            return parent[node]=findParent(parent[node]);
+        }
+        void unionBySize(int u,int v){
+            int ulp_u=findParent(u);
+            int ulp_v=findParent(v);
+            if(ulp_u==ulp_v) return;
+            if(size[ulp_u]>size[ulp_v]){
+                size[ulp_u]+=size[ulp_v];
+                parent[ulp_v]=ulp_u;
+            }else{
+                size[ulp_v]+=size[ulp_u];
+                parent[ulp_u]=ulp_v;
+            }
+        }
+};
+class Solution{//SC=O(2V(SIZE+PARENT)+E(GRP))
+    public:
+    int spanningTree(int V, vector<vector<int>> adj[]) {
+        vector<pair<int,pair<int,int>>>grp;
+        for(int i=0;i<V;i++)//TC=O(V+E)
+            for(auto it : adj[i]){
+                int u=i;
+                int v=it[0];
+                int wt=it[1];
+                grp.push_back({wt,{u,v}});
+        }
+        sort(grp.begin(),grp.end());//O(ELOGE)
+        DisjointSet ds(V);
+        int minwt=0;
+        for(int i=0;i<grp.size();i++){//O(E*4ALPHA*2)
+            int cu=grp[i].second.first;
+            int cv=grp[i].second.second;
+            if(ds.findParent(cu)!=ds.findParent(cv)){
+                minwt+=grp[i].first;
+                ds.unionBySize(cu,cv);
+            }
+        }
+        return minwt;
+    }
+};
