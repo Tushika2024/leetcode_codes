@@ -1,0 +1,103 @@
+BRUTE-
+class DisjointSet{
+    public:
+        vector<int>size;
+        vector<int>parent;
+        DisjointSet(int n) {
+            parent.resize(n);
+            size.resize(n,1);
+            for(int i=0;i<parent.size();i++){
+                parent[i]=i;
+            }
+        }
+        int findParent(int node){
+            if(node==parent[node]) return node;
+            return parent[node]=findParent(parent[node]);
+        }
+        void unionBySize(int u, int v) {
+        int parent_u=findParent(u);
+        int parent_v=findParent(v);
+        if(parent_u==parent_v) return;
+        if(size[parent_u]>size[parent_v]){
+                parent[parent_v]=parent_u;
+                size[u]+=size[v];
+        }else{
+                parent[parent_u]=parent_v;
+                size[v]+=size[u];
+        }
+    }
+};
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int maxstones=0;
+        DisjointSet ds(stones.size());
+        for(int i=0;i<stones.size();i++){
+            vector<int>fstone=stones[i];
+            for(int j=i+1;j<stones.size();j++){
+                vector<int>sstone=stones[j];
+                if(fstone[0]==sstone[0] || fstone[1]==sstone[1]){
+                    if(ds.findParent(i)!=ds.findParent(j)){
+                        maxstones++;
+                        ds.unionBySize(i,j);
+                    }
+                }
+            }
+        }
+        return maxstones;
+    }
+};
+
+OPTIMAL-
+class DisjointSet{
+    public:
+        vector<int>size;
+        vector<int>parent;
+        DisjointSet(int n) {
+            parent.resize(n);
+            size.resize(n,1);
+            for(int i=0;i<parent.size();i++){
+                parent[i]=i;
+            }
+        }
+        int findParent(int node){
+            if(node==parent[node]) return node;
+            return parent[node]=findParent(parent[node]);
+        }
+        void unionBySize(int u, int v) {
+        int parent_u=findParent(u);
+        int parent_v=findParent(v);
+        if(parent_u==parent_v) return;
+        if(size[parent_u]>size[parent_v]){
+                parent[parent_v]=parent_u;
+                size[parent_u]+=size[parent_v];
+        }else{
+                parent[parent_u]=parent_v;
+                size[parent_v]+=size[parent_u];
+        }
+    }
+};
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int cmp=0;
+        int maxrow=0,maxcol=0;
+        for(auto it:stones){
+            maxrow=max(maxrow,it[0]);
+            maxcol=max(maxcol,it[1]);
+        }
+        DisjointSet ds(maxrow+maxcol+2);
+        unordered_map<int,int>stonenodes;
+        for(auto it :stones){
+            int crow=it[0];
+            int ccol=it[1]+maxrow+1;
+            ds.unionBySize(crow,ccol);
+            stonenodes[crow]=1;
+            stonenodes[ccol]=1;
+        }
+        for(auto it :stonenodes){
+            if(ds.findParent(it.first)==it.first) cmp++;
+        }
+        return stones.size()-cmp;
+    }
+};
