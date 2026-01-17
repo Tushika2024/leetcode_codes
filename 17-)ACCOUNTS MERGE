@@ -1,0 +1,59 @@
+class DisjointSet{
+    public:
+        vector<int>size;
+        vector<int>parent;
+        DisjointSet(int n) {
+            parent.resize(n);
+            size.resize(n,1);
+            for(int i=0;i<parent.size();i++){
+                parent[i]=i;
+            }
+        }
+        int findParent(int node){
+            if(node==parent[node]) return node;
+            return parent[node]=findParent(parent[node]);
+        }
+        void unionBySize(int u, int v) {
+        int parent_u=findParent(u);
+        int parent_v=findParent(v);
+        if(parent_u==parent_v) return;
+        if(size[parent_u]>size[parent_v]){
+                parent[parent_v]=parent_u;
+                size[parent_u]+=size[parent_v];
+        }else{
+                parent[parent_u]=parent_v;
+                size[parent_v]+=size[parent_u];
+        }
+    }
+};
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts){
+        vector<vector<string>>fans;
+        unordered_map<string,int>mp;
+        unordered_map<int,vector<string>>mp2;
+        DisjointSet ds(accounts.size());
+        for(int i=0;i<accounts.size();i++){
+            for(int j=1;j<accounts[i].size();j++){
+                if(mp.find(accounts[i][j])==mp.end()){
+                    mp[accounts[i][j]]=i;
+                }else{
+                    int cp=i;
+                    int pp=mp[accounts[i][j]];
+                    ds.unionBySize(cp,pp);
+                }
+            }
+        }
+        for(auto it :mp){
+            int par=ds.findParent(it.second);
+            if(mp2.find(par)==mp2.end()) 
+                mp2[par].push_back(accounts[par][0]);
+            mp2[par].push_back(it.first);
+        }
+        for(auto it :mp2){
+            sort(it.second.begin()+1,it.second.end());
+            fans.push_back(it.second);
+        }
+        return fans;
+    }
+};
