@@ -1,0 +1,83 @@
+class DisjointSet{
+    public:
+        vector<int>size;
+        vector<int>parent;
+        DisjointSet(int n) {
+            parent.resize(n);
+            size.resize(n,1);
+            for(int i=0;i<parent.size();i++){
+                parent[i]=i;
+            }
+        }
+        int findParent(int node){
+            if(node==parent[node]) return node;
+            return parent[node]=findParent(parent[node]);
+        }
+        void unionBySize(int u, int v) {
+        int parent_u=findParent(u);
+        int parent_v=findParent(v);
+        if(parent_u==parent_v) return;
+        if(size[parent_u]>size[parent_v]){
+                parent[parent_v]=parent_u;
+                size[parent_u]+=size[parent_v];
+        }else{
+                parent[parent_u]=parent_v;
+                size[parent_v]+=size[parent_u];
+        }
+    }
+};
+class Solution {
+public:
+    int largestIsland(vector<vector<int>>& grid) {
+        int maxis=INT_MIN;
+        int n=grid.size();
+        DisjointSet ds(n*n);
+        vector<int>delrow={-1,0,+1,0};
+        vector<int>delcol={0,+1,0,-1};
+        set<int>st;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]){
+                    int crow=i;
+                    int ccol=j;
+                    int cnode=n*i+j;
+                    for(int k=0;k<4;k++){
+                        int nrow=delrow[k]+crow;
+                        int ncol=delcol[k]+ccol;
+                        int nnode=n*nrow+ncol;
+                        if(nrow>=0 && ncol>=0 && nrow<n && ncol<n
+                        &&grid[nrow][ncol]){
+                            if(ds.findParent(cnode)!=
+                            ds.findParent(nnode)) 
+                            ds.unionBySize(cnode,nnode);
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(!grid[i][j]){
+                    int csize=0;
+                    for(int k=0;k<4;k++){
+                        int nrow=delrow[k]+i;
+                        int ncol=delcol[k]+j;
+                        int nnode=n*nrow+ncol;
+                        if(nrow>=0 && ncol>=0 && nrow<n && ncol<n
+                        &&grid[nrow][ncol]){
+                            st.insert(ds.findParent(nnode));
+                        }
+                    }
+                    for(auto it :st){
+                        csize+=ds.size[it];
+                    }
+                    maxis=max(maxis,csize+1);
+                }
+                st.clear();
+            }
+        }
+        if(maxis==INT_MIN) 
+        return *max_element(ds.size.begin(),ds.size.end());
+        return maxis;
+    }
+};
