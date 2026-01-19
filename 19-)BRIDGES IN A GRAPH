@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int timer=0;
+    void graphformation(vector<vector<int>>& connections,
+    vector<vector<int>>&adjlist,int n){
+        for(int i=0;i<connections.size();i++){
+            adjlist[connections[i][0]].push_back(connections[i][1]);
+            adjlist[connections[i][1]].push_back(connections[i][0]);
+        }
+    }
+    void dfs(vector<vector<int>>&adjlist,vector<int>&tins,
+    vector<int>&lt,vector<int>&visited,
+    vector<vector<int>>&ans,int node,int parent){
+        visited[node]=1;
+        tins[node]=lt[node]=timer;
+        timer++;
+        for(auto it :adjlist[node]){
+            if(it==parent) continue;
+            else if(!visited[it]){
+                dfs(adjlist,tins,lt,visited,ans,it,node);
+                lt[node]=min(lt[node],lt[it]);
+                if(lt[it]>tins[node]){
+                    ans.push_back({node,it});
+                }
+            }else{
+                lt[node]=min(lt[node],lt[it]);
+            }
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<int>visited(n,0);
+        vector<vector<int>>ans;
+        vector<vector<int>>adjlist(n);
+        vector<int>tins(n,0);
+        vector<int>lt(n,0);
+        graphformation(connections,adjlist,n);
+        dfs(adjlist,tins,lt,visited,ans,0,-1);
+        return ans;
+    }
+};
