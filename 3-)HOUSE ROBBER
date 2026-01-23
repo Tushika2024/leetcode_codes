@@ -1,0 +1,45 @@
+class Solution {
+public://TC=O(N2)SC=O(N+N)
+    int helper(int cidx,vector<pair<int,int>>&dp,vector<int>&nums){
+        for(int j=cidx+2;j<dp.size();j++){
+            if(dp[j].second){
+                dp[cidx].first=max(dp[cidx].first,
+                nums[cidx]+dp[j].first);
+                continue;
+            }
+                
+            dp[cidx].first=max(dp[cidx].first,
+                nums[cidx]+helper(j,dp,nums));
+        }
+        dp[cidx].second=1;
+        return dp[cidx].first;
+    }
+    int rob(vector<int>& nums) {
+        vector<pair<int,int>>dp(nums.size());
+        int maxmoney=INT_MIN;
+        for(int i=0;i<dp.size();i++){
+            dp[i]={nums[i],0};
+        }
+        for(int i=0;i<nums.size();i++){
+            maxmoney=max(maxmoney,helper(i,dp,nums));
+        }
+        return maxmoney;
+    }
+
+    class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1) return nums[0];
+        if(n==2) return max(nums[0],nums[1]);
+        int pmax=nums[n-1];
+        int nmaxtoconsider=nums[n-2];
+        for(int i=n-3;i>=0;i--){
+            int cmoney=nums[i]+pmax;
+            pmax=max(nmaxtoconsider,pmax);
+            nmaxtoconsider=cmoney;
+        }
+        return max(pmax,nmaxtoconsider);
+    }
+};
+};
