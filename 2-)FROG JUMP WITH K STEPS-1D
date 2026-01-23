@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int frogJump(vector<int>& heights, int k) {//TC=O(N*K) SC=O(N)
+        vector<int>minen(heights.size(),0);
+        minen[heights.size()-1]=0;
+        for(int i=heights.size()-2;i>=0;i--){
+            int cmin=INT_MAX;
+            for(int j=1;j<=k;j++){
+                if(i+j<heights.size())
+                cmin=min(cmin,minen[i+j]+abs(heights[i]-heights[i+j]));
+            }
+            minen[i]=cmin;
+        }
+        return minen[0];
+    }
+};
