@@ -1,0 +1,65 @@
+RECURSION
+MEMOIZATION-
+class Solution {
+public:
+    long long helper(vector<vector<int>>& grid,//TC=O(M*N) SC=O(M*N)+O(M+N)
+        vector<vector<long long>>&dp,int crow,int ccol,int r,int c){
+        if(crow>=r || ccol>=c) return LLONG_MAX;
+        if(crow==r-1 && ccol==c-1) return grid[crow][ccol];
+        if(dp[crow][ccol]!=-1) return dp[crow][ccol];
+        long long s1=LLONG_MAX,s2=LLONG_MAX;
+        s1=helper(grid,dp,crow,ccol+1,r,c);
+        s2=helper(grid,dp,crow+1,ccol,r,c);
+        return dp[crow][ccol]=grid[crow][ccol]+min(s1,s2);
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        int r=grid.size();
+        int c=grid[0].size();
+        vector<vector<long long>>dp(r,vector<long long>(c,-1));
+        return (int)helper(grid,dp,0,0,r,c);
+    }
+};
+TABULATION-
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int r=grid.size();//TC=O(M*N) SC=O(M*N)
+        int c=grid[0].size();
+        vector<vector<long long>>dp(r,vector<long long>(c,-1));
+        dp[r-1][c-1]=grid[r-1][c-1];
+        for(int i=r-1;i>=0;i--){
+            for(int j=c-1;j>=0;j--){
+                long long s1=LLONG_MAX,s2=LLONG_MAX;
+                if(i==r-1 && j==c-1) continue;
+                if(j+1<c) s1=dp[i][j+1];
+                if(i+1<r) s2=dp[i+1][j];
+                dp[i][j]=min(s1,s2)+grid[i][j];
+            }
+        }
+        return dp[0][0];
+    }
+};
+
+SPACE OPTIMISATION-
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int r=grid.size();//TC=O(M*N) SC=O(2N)
+        int c=grid[0].size();
+        vector<long long>prev(c,0);
+        for(int i=r-1;i>=0;i--){
+            vector<long long>temp(c,0);
+            for(int j=c-1;j>=0;j--){
+                long long s1=LLONG_MAX,s2=LLONG_MAX;
+                if(i==r-1 && j==c-1) temp[j]=grid[i][j];
+                else{
+                    if(j+1<c) s1=temp[j+1];
+                    if(i+1<r) s2=prev[j];
+                    temp[j]=min(s1,s2)+grid[i][j];
+                }
+            }
+            prev=temp;
+        }
+        return (int)prev[0];
+    }
+};
