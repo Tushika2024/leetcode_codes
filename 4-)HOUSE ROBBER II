@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int helper(int chouse,vector<int>&nums,int n){
+        int maxcval=0;
+        for(int j=chouse+2;j<n;j++){
+            maxcval=max(maxcval,helper(j,nums,n)); 
+        }
+        return maxcval+nums[chouse];
+    }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        int maxans=0;
+        for(int i=0;i<n;i++){
+            if(!i) maxans=max(maxans,helper(i,nums,n-1));
+            else maxans=max(maxans,helper(i,nums,n));
+        }
+        return maxans;
+    }
+};
+
+class Solution {
+public:
+    int helper(int chouse,vector<int>&nums,int n,vector<int>&dp){
+        int maxcval=0;
+        for(int j=chouse+2;j<n;j++){
+            if(dp[j]!=-1) maxcval=max(maxcval,dp[j]);
+            else maxcval=max(maxcval,helper(j,nums,n,dp)); 
+        }
+        return dp[chouse]=maxcval+nums[chouse];
+    }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        int maxans=0;
+        vector<int>dp(n,-1);
+        int firstans=helper(0,nums,n-1,dp);
+        for(int i=0;i<n;i++) dp[i]=-1;
+        for(int i=1;i<n;i++){
+            helper(i,nums,n,dp);
+        }
+        return  max(*max_element(dp.begin(),dp.end()),firstans);
+    }
+};
