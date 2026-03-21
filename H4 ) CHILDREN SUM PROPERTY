@@ -1,0 +1,77 @@
+MY-
+/* class TreeNode {
+       int val;
+       TreeNode *left, *right;
+       TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+   };
+*/
+
+class Solution {
+public:
+    long long helper(TreeNode *root){
+        if(root==NULL) return 0;
+        if((!root->left) && (!root->right)) return root->val;
+        long long lans=helper(root->left);
+        long long rans=helper(root->right);
+        if(lans==LONG_MIN || rans==LONG_MIN || 
+                (lans+rans!=(long long)root->val)) 
+            return LONG_MIN;
+        return root->val;
+    }
+    bool checkChildrenSum(TreeNode* root) {
+        // Your code goes here
+        if(helper(root)==LONG_MIN) return false;
+        return true;
+    }
+
+STRIVER-
+#include <bits/stdc++.h>
+using namespace std;
+
+// TreeNode structure
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    // Constructor
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+// Solution class
+class Solution {
+public:
+    // Function to check children sum property
+    bool checkChildrenSum(TreeNode* root) {
+        // Return true if node is null
+        if (!root) return true;
+        // Return true if node is leaf
+        if (!root->left && !root->right) return true;
+        // Compute left and right child values
+        int leftVal = root->left ? root->left->val : 0;
+        int rightVal = root->right ? root->right->val : 0;
+        // Check current node and recurse on children
+        return (root->val == leftVal + rightVal) &&
+               checkChildrenSum(root->left) &&
+               checkChildrenSum(root->right);
+    }
+};
+
+// Driver function
+int main() {
+    // Create binary tree
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(8);
+    root->right = new TreeNode(2);
+    root->left->left = new TreeNode(3);
+    root->left->right = new TreeNode(5);
+    root->right->right = new TreeNode(2);
+
+    // Check children sum property
+    Solution sol;
+    bool result = sol.checkChildrenSum(root);
+
+    // Print result
+    cout << (result ? "True" : "False") << endl;
+}
+
+};
