@@ -25,7 +25,7 @@ void adjlist(int V,vector<vector<int>>&edges,vector<vector<int>>&fans){
         return false;
 
 
-STRIVER-  TC=O(V+E)  SC=O(V)+O(2V)
+STRIVER-  TC=O(V+E)  SC=O(V)+O(2V)  DFS
     void adjlist(int V,vector<vector<int>>&edges,vector<vector<int>>&fans){
         int r=edges.size();
         for(int i=0;i<r;i++){
@@ -57,6 +57,46 @@ STRIVER-  TC=O(V+E)  SC=O(V)+O(2V)
                 if(helper(fans,i,visited,pathvisited)) return true;
         }
         return false;
+
+
+USING BFS
+class Solution {
+public:
+    void adjlist(vector<vector<int>>&prerequisites,
+                vector<vector<int>>&adj){
+        for(int i=0;i<prerequisites.size();i++){
+            int fel=prerequisites[i][1];
+            int sel=prerequisites[i][0];
+            adj[fel].push_back(sel);
+        }
+    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>>adj(numCourses);
+        adjlist(prerequisites,adj);
+        vector<int>indegree(numCourses,0);
+        queue<int>q;
+        int count=0;
+        for(int i=0;i<numCourses;i++){
+            for(auto it:adj[i]){
+                indegree[it]++;
+            }
+        }
+        for(int i=0;i<numCourses;i++){
+            if(!indegree[i]) q.push(i);
+        }
+        while(!q.empty()){
+            int el=q.front();
+            q.pop();
+            count++;
+            for(auto it:adj[el]){
+                indegree[it]--;
+                if(!indegree[it]) q.push(it);
+            }
+        }
+        if(count==numCourses) return true;
+        return false;
+    }
+};
         
     }
         
